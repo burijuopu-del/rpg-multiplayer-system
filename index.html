@@ -84,7 +84,25 @@
             </section>
         </main>
 
-        <footer class="app-footer">🎮 RPG Quest Master | Made with 💜</footer>
+<footer class="site-footer">
+    <span>« Nous voulons être les poètes de notre vie, et tout d’abord dans les choses les plus petites et les plus quotidiennes. »</span>
+</footer>
+        <div class="admin-custom-quest-box">
+    <h3>➕ Ajouter une quête personnalisée</h3>
+    <textarea id="customQuestInput" rows="5" placeholder="Exemple :
+Lire 20 minutes | Lecture d’un chapitre utile | C | intelligence | 20 | 15
+Boire 2 litres d’eau | Santé du corps | E | sante | 5 | 5"></textarea>
+
+    <div class="admin-actions-row">
+        <button class="btn-primary" onclick="addCustomQuestsFromInput()">Ajouter les quêtes écrites</button>
+        <button class="btn-secondary" onclick="clearCustomQuestInput()">Vider</button>
+    </div>
+
+    <p class="helper-text">
+        Format : <strong>Titre | Description | Rang | Stat | XP | Or</strong><br>
+        Exemple de rang : E, D, C, B, A, S, SS, SSS
+    </p>
+        </div>
     </div>
 
     <!-- MODAUX -->
