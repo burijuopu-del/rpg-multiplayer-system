@@ -1,47 +1,30 @@
 /* ============================================================================
-   🎮 RPG QUEST MASTER - INTERFACE MODERNE & CLAIRE
+   🎮 RPG QUEST MASTER - INTERFACE MODERNE & COLORÉE
    ============================================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Cinzel:wght@700;800;900&display=swap');
 
 :root {
-    /* === PALETTE CLAIRE & DÉGRADÉE === */
     --bg-main: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 50%, #f5f0ff 100%);
     --bg-panel: rgba(255, 255, 255, 0.95);
-    --bg-soft: rgba(255, 255, 255, 0.7);
-    
-    /* === COULEURS PRINCIPALES === */
-    --primary: #667eea;
-    --primary-light: #818cf8;
-    --secondary: #764ba2;
-    --accent: #f093fb;
-    
-    /* === TEXTE === */
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
-    --text-light: #9ca3af;
-    
-    /* === RARETÉS === */
-    --tier-sss: #ffd700;
-    --tier-ss: #a855f7;
-    --tier-s: #ef4444;
-    --tier-a: #f97316;
-    --tier-b: #06b6d4;
-    --tier-c: #22c55e;
-    --tier-d: #94a3b8;
-    --tier-e: #64748b;
-    
-    /* === OMBRES & EFFETS === */
+    --primary: #667eea;
+    --secondary: #764ba2;
+    --accent: #f093fb;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.15);
-    --glow: 0 0 20px rgba(102, 126, 234, 0.3);
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* COULEURS PAR CLASSE */
+:root {
+    --warrior: linear-gradient(135deg, #ff6b9d, #c44569);
+    --mage: linear-gradient(135deg, #a855f7, #7c3aed);
+    --archer: linear-gradient(135deg, #22c55e, #059669);
+    --paladin: linear-gradient(135deg, #fbbf24, #d97706);
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
     min-height: 100vh;
@@ -52,29 +35,23 @@ html, body {
     overflow-x: hidden;
 }
 
-/* === ANIMATIONS FOND === */
+/* FOND ANIMÉ */
 .ambient {
     position: fixed;
     width: 400px;
     height: 400px;
     border-radius: 50%;
     filter: blur(80px);
-    opacity: 0.3;
+    opacity: 0.2;
     pointer-events: none;
     z-index: 0;
-    animation: float 20s infinite ease-in-out;
 }
 
-.ambient-1 { top: -100px; left: -100px; background: linear-gradient(135deg, #667eea, #764ba2); animation-duration: 20s; }
-.ambient-2 { top: 30%; right: -150px; background: linear-gradient(135deg, #f093fb, #ff6b6b); animation-duration: 25s; }
-.ambient-3 { bottom: -100px; left: 20%; background: linear-gradient(135deg, #22c55e, #14b8a6); animation-duration: 22s; }
+.ambient-1 { top: -100px; left: -100px; background: var(--warrior); }
+.ambient-2 { top: 30%; right: -150px; background: var(--mage); }
+.ambient-3 { bottom: -100px; left: 20%; background: var(--archer); }
 
-@keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(30px, -30px); }
-}
-
-/* === CONTENEUR PRINCIPAL === */
+/* SHELL */
 .app-shell {
     position: relative;
     z-index: 1;
@@ -83,11 +60,11 @@ html, body {
     padding: 0 16px;
 }
 
-/* === HERO HEADER === */
+/* HERO PANEL */
 .hero-panel {
     padding: 30px;
     border-radius: 20px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,244,255,0.95));
+    background: var(--bg-panel);
     border: 2px solid rgba(102, 126, 234, 0.2);
     box-shadow: var(--shadow-lg);
     margin-bottom: 30px;
@@ -95,17 +72,11 @@ html, body {
 
 .hero-panel h1 {
     font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    font-size: 2.2rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 10px;
-}
-
-.hero-panel p {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    margin-bottom: 15px;
 }
 
 .xp-bar-container {
@@ -121,12 +92,10 @@ html, body {
 .xp-bar-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-    border-radius: 10px;
     transition: width 0.5s ease;
-    box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
 }
 
-/* === NAVIGATION === */
+/* NAVIGATION */
 .nav-tabs {
     display: flex;
     gap: 10px;
@@ -147,7 +116,6 @@ html, body {
     background: transparent;
     color: var(--text-secondary);
     font-weight: 600;
-    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -161,28 +129,13 @@ html, body {
 .tab-btn.active {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
-    box-shadow: var(--glow);
 }
 
-/* === CONTENU PRINCIPAL === */
-.main-content {
-    display: grid;
-    gap: 30px;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+/* CONTENU */
+.main-content { display: grid; gap: 30px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .section-header {
     display: flex;
@@ -196,7 +149,6 @@ html, body {
 .section-header h2 {
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
-    color: var(--text-primary);
 }
 
 .section-subtitle {
@@ -205,7 +157,7 @@ html, body {
     margin-top: 5px;
 }
 
-/* === FILTRES === */
+/* FILTRES */
 .quest-filter {
     display: flex;
     gap: 10px;
@@ -219,14 +171,8 @@ html, body {
     background: transparent;
     color: var(--text-secondary);
     font-weight: 600;
-    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.filter-btn:hover {
-    border-color: var(--primary);
-    color: var(--primary);
 }
 
 .filter-btn.active {
@@ -235,24 +181,16 @@ html, body {
     border-color: var(--secondary);
 }
 
-/* === BOUTONS === */
-.btn-primary, .btn-secondary {
+/* BOUTONS */
+.btn-primary {
     padding: 12px 24px;
     border: none;
     border-radius: 10px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn-primary {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
-    box-shadow: var(--glow);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
@@ -261,13 +199,18 @@ html, body {
 }
 
 .btn-secondary {
-    background: rgba(102, 126, 234, 0.1);
-    color: var(--primary);
+    padding: 8px 16px;
     border: 2px solid var(--primary);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
-    background: rgba(102, 126, 234, 0.2);
+    background: rgba(102, 126, 234, 0.1);
 }
 
 .btn-complete {
@@ -292,25 +235,20 @@ html, body {
     cursor: not-allowed;
 }
 
-/* === GRILLES === */
+/* GRILLES */
 .quests-grid, .players-grid, .raids-grid {
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
-@media (max-width: 768px) {
-    .quests-grid, .players-grid, .raids-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* === CARTES QUÊTES === */
+/* QUÊTES */
 .quest-card {
     padding: 20px;
     border-radius: 15px;
     background: var(--bg-panel);
     border: 2px solid rgba(102, 126, 234, 0.2);
+    border-left: 5px solid var(--primary);
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
     display: flex;
@@ -321,17 +259,15 @@ html, body {
 .quest-card:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--primary);
 }
 
-.quest-card.rarity-sss { border-left: 5px solid var(--tier-sss); }
-.quest-card.rarity-ss { border-left: 5px solid var(--tier-ss); }
-.quest-card.rarity-s { border-left: 5px solid var(--tier-s); }
-.quest-card.rarity-a { border-left: 5px solid var(--tier-a); }
-.quest-card.rarity-b { border-left: 5px solid var(--tier-b); }
-.quest-card.rarity-c { border-left: 5px solid var(--tier-c); }
-.quest-card.rarity-d { border-left: 5px solid var(--tier-d); }
-.quest-card.rarity-e { border-left: 5px solid var(--tier-e); }
+.quest-card.rarity-sss { border-left-color: #ffd700; }
+.quest-card.rarity-ss { border-left-color: #a855f7; }
+.quest-card.rarity-s { border-left-color: #ef4444; }
+.quest-card.rarity-a { border-left-color: #f97316; }
+.quest-card.rarity-b { border-left-color: #06b6d4; }
+.quest-card.rarity-c { border-left-color: #22c55e; }
+.quest-card.rarity-d { border-left-color: #94a3b8; }
 
 .quest-header {
     display: flex;
@@ -341,28 +277,9 @@ html, body {
     margin-bottom: 10px;
 }
 
-.quest-title {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--text-primary);
-}
-
-.quest-rarity {
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    white-space: nowrap;
-    background: rgba(102, 126, 234, 0.1);
-    color: var(--primary);
-}
-
-.quest-description {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-    line-height: 1.5;
-}
+.quest-title { font-weight: 700; font-size: 1.1rem; }
+.quest-rarity { padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; background: rgba(102, 126, 234, 0.1); color: var(--primary); }
+.quest-description { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px; line-height: 1.5; }
 
 .quest-rewards {
     display: flex;
@@ -380,12 +297,7 @@ html, body {
     color: var(--primary);
 }
 
-.quest-card.completed {
-    opacity: 0.6;
-    background: rgba(0, 0, 0, 0.03);
-}
-
-/* === CARTES JOUEURS === */
+/* JOUEURS */
 .player-card {
     padding: 20px;
     border-radius: 15px;
@@ -399,7 +311,6 @@ html, body {
 .player-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--primary);
 }
 
 .player-header {
@@ -416,20 +327,11 @@ html, body {
     display: grid;
     place-items: center;
     font-size: 2rem;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
 }
 
-.player-info h3 {
-    font-size: 1.2rem;
-    color: var(--text-primary);
-    margin-bottom: 3px;
-}
-
-.player-class {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-}
+.player-info h3 { font-size: 1.2rem; margin-bottom: 3px; }
+.player-class { color: var(--text-secondary); font-size: 0.9rem; }
 
 .player-stats {
     display: grid;
@@ -444,21 +346,10 @@ html, body {
     text-align: center;
 }
 
-.stat-label {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    display: block;
-}
+.stat-label { color: var(--text-secondary); font-size: 0.85rem; display: block; }
+.stat-value { color: var(--text-primary); font-weight: 700; font-size: 1.1rem; display: block; margin-top: 3px; }
 
-.stat-value {
-    color: var(--text-primary);
-    font-weight: 700;
-    font-size: 1.1rem;
-    display: block;
-    margin-top: 3px;
-}
-
-/* === CARTES RAIDS === */
+/* RAIDS */
 .raid-card {
     padding: 20px;
     border-radius: 15px;
@@ -471,7 +362,6 @@ html, body {
 .raid-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: #ef4444;
 }
 
 .raid-hp-bar {
@@ -489,7 +379,7 @@ html, body {
     transition: width 0.3s ease;
 }
 
-/* === SOCIAL & CHAT === */
+/* SOCIAL */
 .social-grid {
     display: grid;
     gap: 25px;
@@ -504,18 +394,7 @@ html, body {
     box-shadow: var(--shadow);
 }
 
-.social-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    color: var(--text-primary);
-}
-
-.helper-text {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    margin-bottom: 10px;
-    margin-top: -10px;
-}
+.social-card h3 { font-size: 1.2rem; margin-bottom: 15px; }
 
 .chat-messages {
     height: 300px;
@@ -542,16 +421,9 @@ html, body {
     margin-left: 20px;
 }
 
-.chat-meta {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-bottom: 3px;
-}
-
 .chat-input-row {
     display: flex;
     gap: 10px;
-    margin-top: 15px;
 }
 
 .chat-input-row input {
@@ -560,13 +432,11 @@ html, body {
     border: 2px solid rgba(102, 126, 234, 0.3);
     border-radius: 8px;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.9rem;
 }
 
 .chat-input-row input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: var(--glow);
 }
 
 .log-list {
@@ -582,13 +452,12 @@ html, body {
     border-radius: 8px;
     background: rgba(102, 126, 234, 0.1);
     font-size: 0.9rem;
-    color: var(--text-primary);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* === MODAUX === */
+/* MODAUX */
 .modal {
     display: none;
     position: fixed;
@@ -598,18 +467,12 @@ html, body {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    animation: modalFadeIn 0.3s ease;
-}
-
-@keyframes modalFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    align-items: center;
+    justify-content: center;
 }
 
 .modal.show {
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .modal-content {
@@ -622,32 +485,15 @@ html, body {
     position: relative;
 }
 
-.modal-large {
-    max-width: 900px;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
 .close {
     position: absolute;
     right: 20px;
     top: 20px;
     font-size: 28px;
-    font-weight: bold;
-    color: var(--text-secondary);
     cursor: pointer;
-    transition: color 0.3s;
 }
 
-.close:hover {
-    color: var(--text-primary);
-}
-
-.modal-content h2 {
-    margin-bottom: 20px;
-    color: var(--text-primary);
-    font-family: 'Cinzel', serif;
-}
+.modal-content h2 { margin-bottom: 20px; font-family: 'Cinzel', serif; }
 
 .modal-content input, .modal-content select {
     width: 100%;
@@ -656,27 +502,12 @@ html, body {
     border: 2px solid rgba(102, 126, 234, 0.3);
     border-radius: 8px;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.95rem;
-}
-
-.modal-content input:focus, .modal-content select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: var(--glow);
 }
 
 .modal-content label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: var(--text-primary);
-}
-
-.players-checkbox-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 15px;
 }
 
 .checkbox-item {
@@ -684,22 +515,10 @@ html, body {
     align-items: center;
     gap: 8px;
     padding: 8px;
-    border-radius: 8px;
-    background: rgba(102, 126, 234, 0.05);
+    margin-bottom: 8px;
 }
 
-.checkbox-item input {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.checkbox-item label {
-    margin-bottom: 0;
-    cursor: pointer;
-}
-
-/* === FOOTER === */
+/* FOOTER */
 .app-footer {
     text-align: center;
     padding: 30px;
@@ -708,7 +527,6 @@ html, body {
     border-top: 2px solid rgba(102, 126, 234, 0.1);
 }
 
-/* === MINI CARDS === */
 .mini-card {
     padding: 15px;
     border-radius: 10px;
@@ -718,45 +536,9 @@ html, body {
     color: var(--text-secondary);
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 768px) {
-    .hero-panel {
-        padding: 20px;
-    }
-
-    .hero-panel h1 {
-        font-size: 1.8rem;
-    }
-
-    .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .player-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .social-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* === SCROLLBAR PERSONNALISÉE === */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(102, 126, 234, 0.05);
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+    .hero-panel { padding: 20px; }
+    .hero-panel h1 { font-size: 1.5rem; }
+    .players-grid { grid-template-columns: 1fr; }
+    .social-grid { grid-template-columns: 1fr; }
 }

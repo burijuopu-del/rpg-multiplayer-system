@@ -3,119 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="🎮 RPG Quest Master - Système RPG multijoueurs IRL avec quêtes, XP, raids et plus !">
     <title>🎮 RPG Quest Master</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- ===== ARRIÈRE-PLAN ANIMÉ ===== -->
     <div class="ambient ambient-1"></div>
     <div class="ambient ambient-2"></div>
     <div class="ambient ambient-3"></div>
-    <div id="confetti"></div>
 
     <div class="app-shell">
-        <!-- ===== HEADER HÉRO ===== -->
         <header class="hero-panel" id="heroPanel"></header>
 
-        <!-- ===== NAVIGATION ===== -->
         <nav class="nav-tabs">
             <button class="tab-btn active" data-tab="quests">📜 Quêtes</button>
-            <button class="tab-btn" data-tab="players">👥 Profil</button>
+            <button class="tab-btn" data-tab="players">👥 Joueurs</button>
             <button class="tab-btn" data-tab="raids">⚔️ Raids</button>
             <button class="tab-btn" data-tab="social">💬 Social</button>
-            <button class="tab-btn admin-btn" data-tab="admin" style="display:none;">⚙️ Admin</button>
+            <button class="tab-btn" data-tab="admin">⚙️ Admin</button>
         </nav>
 
-        <!-- ===== CONTENU PRINCIPAL ===== -->
         <main class="main-content">
-            <!-- ONGLET 1: QUÊTES -->
+            <!-- QUÊTES -->
             <section class="tab-content active" id="quests-tab">
                 <div class="section-header">
                     <div>
-                        <h2>📜 Tableau des Quêtes</h2>
-                        <p class="section-subtitle">Complétez vos missions et gagnez XP !</p>
+                        <h2>📜 Quêtes du Jour</h2>
+                        <p class="section-subtitle" id="seasonBadge">Saison</p>
                     </div>
                     <div class="quest-filter">
                         <button class="filter-btn active" data-filter="all">🎯 Toutes</button>
-                        <button class="filter-btn" data-filter="special">✨ Spéciales</button>
-                        <button class="filter-btn" data-filter="daily">📅 Quotidiennes</button>
+                        <button class="filter-btn" data-filter="easy">✨ Faciles</button>
+                        <button class="filter-btn" data-filter="hard">🔥 Difficiles</button>
                     </div>
                 </div>
                 <div class="quests-grid" id="questsContainer"></div>
             </section>
 
-            <!-- ONGLET 2: PROFIL -->
+            <!-- JOUEURS -->
             <section class="tab-content" id="players-tab">
                 <div class="section-header">
-                    <div>
-                        <h2>👥 Gestion des Joueurs</h2>
-                        <p class="section-subtitle">Créez et gérez vos personnages</p>
-                    </div>
-                    <button class="btn-primary" onclick="openAddPlayerModal()">➕ Ajouter Joueur</button>
+                    <h2>👥 Joueurs</h2>
+                    <button class="btn-primary" onclick="openAddPlayerModal()">➕ Ajouter</button>
                 </div>
                 <div class="players-grid" id="playersContainer"></div>
             </section>
 
-            <!-- ONGLET 3: RAIDS -->
+            <!-- RAIDS -->
             <section class="tab-content" id="raids-tab">
                 <div class="section-header">
-                    <div>
-                        <h2>⚔️ Raids Coopératifs</h2>
-                        <p class="section-subtitle">Combattez ensemble des boss puissants</p>
-                    </div>
-                    <button class="btn-primary" onclick="openCreateRaidModal()">➕ Nouveau Raid</button>
+                    <h2>⚔️ Raids</h2>
+                    <button class="btn-primary" onclick="openCreateRaidModal()">➕ Raid</button>
                 </div>
                 <div class="raids-grid" id="raidsContainer"></div>
             </section>
 
-            <!-- ONGLET 4: SOCIAL -->
+            <!-- SOCIAL -->
             <section class="tab-content" id="social-tab">
                 <div class="social-grid">
-                    <!-- Chat de Groupe -->
                     <div class="social-card">
                         <h3>🌍 Chat Global</h3>
                         <div class="chat-messages" id="chatMessages"></div>
                         <div class="chat-input-row">
-                            <input id="chatInput" type="text" placeholder="Votre message..." maxlength="200">
-                            <button class="btn-primary" onclick="sendChatMessage()">📤 Envoyer</button>
+                            <input id="chatInput" type="text" placeholder="Message..." maxlength="200">
+                            <button class="btn-primary" onclick="sendChat()">📤</button>
                         </div>
                     </div>
-
-                    <!-- Logs d'Actions -->
                     <div class="social-card">
-                        <h3>🧾 Journal d'Actions</h3>
-                        <p class="helper-text">Annulez les actions en moins de 10 minutes</p>
+                        <h3>🧾 Logs</h3>
                         <div id="logsContainer" class="log-list"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- ONGLET 5: ADMIN -->
+            <!-- ADMIN -->
             <section class="tab-content" id="admin-tab">
                 <div class="section-header">
-                    <div>
-                        <h2>⚙️ Panneau Admin</h2>
-                        <p class="section-subtitle">Gestion des comptes et modifications</p>
-                    </div>
+                    <h2>⚙️ Panneau Admin</h2>
                 </div>
                 <div id="adminContent"></div>
             </section>
         </main>
 
-        <!-- FOOTER -->
-        <footer class="app-footer">
-            <p>🎮 RPG Quest Master | Fait avec ❤️ pour les aventuriers</p>
-        </footer>
+        <footer class="app-footer">🎮 RPG Quest Master | Made with 💜</footer>
     </div>
 
-    <!-- ===== MODAUX ===== -->
-    <!-- Modal Ajouter Joueur -->
+    <!-- MODAUX -->
     <div id="addPlayerModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeAddPlayerModal()">&times;</span>
-            <h2>➕ Créer un Joueur</h2>
-            <input id="playerName" type="text" placeholder="Nom du joueur" maxlength="30">
+            <h2>➕ Nouveau Joueur</h2>
+            <input id="playerName" type="text" placeholder="Nom" maxlength="30">
             <select id="playerClass">
                 <option value="warrior">⚔️ Guerrier</option>
                 <option value="mage">🔮 Mage</option>
@@ -126,28 +103,19 @@
         </div>
     </div>
 
-    <!-- Modal Créer Raid -->
     <div id="createRaidModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeCreateRaidModal()">&times;</span>
-            <h2>⚔️ Créer un Raid</h2>
+            <h2>⚔️ Créer Raid</h2>
             <input id="raidName" type="text" placeholder="Nom du raid" maxlength="50">
-            <label>Difficulté :</label>
+            <label>Difficulté</label>
             <select id="raidDifficulty">
-                <option value="3">3 étages (Facile)</option>
-                <option value="5">5 étages (Normal)</option>
-                <option value="10">10 étages (Difficile)</option>
+                <option value="3">3 étages</option>
+                <option value="5">5 étages</option>
+                <option value="10">10 étages</option>
             </select>
-            <div id="raidPlayersList" class="players-checkbox-list"></div>
-            <button class="btn-primary" onclick="createRaid()">Créer Raid</button>
-        </div>
-    </div>
-
-    <!-- Modal Détails Joueur -->
-    <div id="playerModal" class="modal">
-        <div class="modal-content modal-large">
-            <span class="close" onclick="closePlayerModal()">&times;</span>
-            <div id="playerModalContent"></div>
+            <div id="raidPlayersList"></div>
+            <button class="btn-primary" onclick="createRaid()">Créer</button>
         </div>
     </div>
 
