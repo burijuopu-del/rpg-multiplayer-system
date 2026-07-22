@@ -146,6 +146,20 @@ html, body {
     gap: 15px;
 }
 
+.site-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.site-brand-title {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: #1f2937;
+}
+
 .section-header h2 {
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
