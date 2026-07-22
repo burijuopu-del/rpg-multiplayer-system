@@ -2,6 +2,7 @@
 
 const STORAGE_KEY = 'rpg_v5';
 const UNDO_WINDOW = 10 * 60 * 1000;
+const ADMIN_CODE = 'Oresama';
 
 const CLASSES = {
     warrior: { emoji: '⚔️', name: 'Guerrier', color: '#ff6b9d' },
@@ -248,6 +249,36 @@ function generateQuests() {
     });
 }
 
+function adminGenerateExtraQuests(rarity = 'B') {
+    if (!GameState.isAdmin) { toast('Accès refusé', 'error'); return; }
+    
+    const pool = QUEST_BANKS[rarity];
+    if (!pool) { toast('Rareté invalide', 'error'); return; }
+    
+    const title = pool[Math.floor(Math.random() * pool.length)];
+    GameState.quests.push({
+        id: uid(),
+        title,
+        rarity: rarity,
+        xp: { E: 5, D: 10, C: 20, B: 30, A: 40, S: 80, SS: 150, SSS: 300 }[rarity],
+        gold: { E: 10, D: 20, C: 40, B: 60, A: 90, S: 150, SS: 300, SSS: 500 }[rarity],
+        completed: false,
+        createdAt: dateKey()
+    });
+    
+    saveState();
+    renderQuests();
+    toast(`✨ Quête ${rarity} ajoutée !`, 'success');
+}
+
+function deleteChat(chatId) {
+    if (!GameState.isAdmin) { toast('Accès refusé', 'error'); return; }
+    GameState.chats = GameState.chats.filter(c => c.id !== chatId);
+    saveState();
+    renderChat();
+    toast('Message supprimé', 'success');
+}
+
 function completeQuest(qid, pid) {
     const q = GameState.quests.find(x => x.id === qid);
     const p = GameState.players.find(x => x.id === pid);
@@ -422,7 +453,17 @@ function renderChat() {
     const c = $('chatMessages');
     if (!c) return;
     if (!GameState.chats.length) { c.innerHTML = '<div style="color:#6b7280;">Aucun</div>'; return; }
-    c.innerHTML = GameState.chats.map(m => `<div class="chat-message"><span style="font-size:0.8rem;color:#6b7280;">${m.time}</span> ${m.text}</div>`).join('');
+    c.innerHTML = GameState.chats.map(m => `
+        <div class="chat-message">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;">
+                <div>
+                    <span style="font-size:0.8rem;color:#6b7280;">${m.time}</span>
+                    <div>${m.text}</div>
+                </div>
+                ${GameState.isAdmin ? `<button class="btn-secondary" onclick="deleteChat('${m.id}')" style="padding:4px 8px;font-size:0.8rem;">✕</button>` : ''}
+            </div>
+        </div>
+    `).join('');
     c.scrollTop = c.scrollHeight;
 }
 
@@ -433,7 +474,7 @@ function renderLogs() {
     c.innerHTML = GameState.logs.slice(0, 20).map(l => {
         const age = Date.now() - l.timestamp;
         const canUndo = age <= UNDO_WINDOW;
-        return `<div class="log-item"><span>${l.text}</span>${canUndo ? `<button class="btn-secondary" onclick="undoLog('${l.id}')">↩️</button>` : ''}</div>`;
+        return `<div class="log-item"><span>${l.text}</span>${canUndo ? `<button class="btn-secondary" onclick="undoLog('${l.id}');">↩️</button>` : ''}</div>`;
     }).join('');
 }
 
@@ -451,12 +492,30 @@ function undoLog(lid) {
 function renderAdmin() {
     const c = $('adminContent');
     if (!c) return;
-    c.innerHTML = `
-        <label style="display:flex;align-items:center;gap:10px;margin-bottom:20px;cursor:pointer;">
-            <input type="checkbox" ${GameState.isAdmin ? 'checked' : ''} onchange="toggleAdmin()">
-            <span>Admin mode</span>
-        </label>
-        ${GameState.isAdmin ? `
+    
+    if (!GameState.isAdmin) {
+        c.innerHTML = `
+            <p style="color:#6b7280;margin-bottom:15px;">Entrez le code pour accéder au panneau admin</p>
+            <div style="display:flex;gap:10px;">
+                <input id="adminCode" type="password" placeholder="Code" style="flex:1;padding:10px;border:2px solid rgba(102,126,234,0.3);border-radius:8px;font-family:Poppins;">
+                <button class="btn-primary" onclick="validateAdminCode()">Accéder</button>
+            </div>
+        `;
+    } else {
+        c.innerHTML = `
+            <div style="margin-bottom:30px;padding:15px;background:linear-gradient(135deg,#22c55e,#16a34a);border-radius:10px;color:white;">
+                <p style="font-weight:700;font-size:1.1rem;">✅ Admin Activé</p>
+                <button class="btn-secondary" onclick="deactivateAdmin()" style="margin-top:10px;width:100%;">Déactiver</button>
+            </div>
+            
+            <h3 style="margin-bottom:15px;">⚙️ Générer Quêtes</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;margin-bottom:30px;">
+                ${['E', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSS'].map(r => `
+                    <button class="btn-secondary" onclick="adminGenerateExtraQuests('${r}')" style="font-weight:700;">${r}</button>
+                `).join('')}
+            </div>
+            
+            <h3 style="margin-bottom:15px;">👥 Gérer Joueurs</h3>
             <div style="display:grid;gap:10px;">
                 ${GameState.players.map(p => `
                     <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(102,126,234,0.05);padding:15px;border-radius:10px;">
@@ -471,14 +530,27 @@ function renderAdmin() {
                     </div>
                 `).join('')}
             </div>
-        ` : ''}
-    `;
+        `;
+    }
 }
 
-function toggleAdmin() {
-    GameState.isAdmin = !GameState.isAdmin;
+function validateAdminCode() {
+    const code = $('adminCode')?.value || '';
+    if (code === ADMIN_CODE) {
+        GameState.isAdmin = true;
+        saveState();
+        renderAdmin();
+        toast('🔓 Admin activé !', 'success');
+    } else {
+        toast('Code incorrect', 'error');
+    }
+}
+
+function deactivateAdmin() {
+    GameState.isAdmin = false;
     saveState();
     renderAdmin();
+    toast('Admin désactivé', 'info');
 }
 
 function adminAddXP(pid) {
@@ -571,6 +643,9 @@ window.damageRaid = damageRaid;
 window.openQuestPicker = openQuestPicker;
 window.sendChat = sendChat;
 window.undoLog = undoLog;
-window.toggleAdmin = toggleAdmin;
+window.validateAdminCode = validateAdminCode;
+window.deactivateAdmin = deactivateAdmin;
+window.adminGenerateExtraQuests = adminGenerateExtraQuests;
+window.deleteChat = deleteChat;
 window.adminAddXP = adminAddXP;
 window.adminAddGold = adminAddGold;
