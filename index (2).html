@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RPG Quest Master - Système de quêtes multijoueurs IRL. Complétez vos défis personnels et montez en niveau.">
+    <meta name="theme-color" content="#060810">
+    <title>🎮 Hunters Guild - Quest Master RPG</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ==================== ARRIÈRE-PLAN IMMERSIF & EFFETS ====================  -->
+    <div class="ambient ambient-1"></div>
+    <div class="ambient ambient-2"></div>
+    <div class="ambient ambient-3"></div>
+    
+    <!-- Zone de Confettis pour animations d'événements -->
+    <div id="confetti"></div>
+
+    <!-- ==================== APPLICATION PRINCIPALE ====================  -->
+    <div class="app-shell">
+        
+        <!-- HERO HEADER PERSONNALISÉ -->
+        <header class="hero-panel" id="heroPanel">
+            <!-- Rempli dynamiquement par renderHero() -->
+        </header>
+
+        <!-- ==================== NAVIGATION PRINCIPALE ====================  -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="quests">
+                <span>📜</span> Quêtes
+            </button>
+            <button class="tab-btn" data-tab="players">
+                <span>👥</span> Profil
+            </button>
+            <button class="tab-btn" data-tab="raids">
+                <span>🐉</span> Raids
+            </button>
+            <button class="tab-btn" data-tab="social">
+                <span>💬</span> Social & Logs
+            </button>
+            <button class="tab-btn admin-only" data-tab="admin" style="display: none;">
+                <span>⚙️</span> Admin
+            </button>
+        </nav>
+
+        <!-- ==================== CONTENU PRINCIPAL ====================  -->
+        <main class="main-content">
+            
+            <!-- ONGLET 1: QUÊTES -->
+            <section class="tab-content active" id="quests-tab">
+                <div class="section-header">
+                    <div>
+                        <h2>⚔️ Tableau des Quêtes</h2>
+                        <p class="section-subtitle">Accomplissez vos missions quotidiennes et débloquez des récompenses épiques</p>
+                    </div>
+                    <div class="quest-filter">
+                        <button class="filter-btn active" data-filter="all">🎯 Toutes</button>
+                        <button class="filter-btn tier-sss" data-filter="SSS">👑 Légendaires</button>
+                        <button class="filter-btn tier-s" data-filter="S">🌟 Héroïques</button>
+                        <button class="filter-btn tier-a" data-filter="A">⚡ Quotidiennes</button>
+                    </div>
+                </div>
+                <!-- Grille de quêtes générée dynamiquement -->
+                <div class="quests-grid" id="questsContainer"></div>
+            </section>
+
+            <!-- ONGLET 2: PROFIL JOUEUR -->
+            <section class="tab-content" id="players-tab">
+                <div class="section-header">
+                    <div>
+                        <h2>👤 Votre Profil</h2>
+                        <p class="section-subtitle">Consultez vos statistiques, équipement et progression</p>
+                    </div>
+                </div>
+                <div id="playersContainer"></div>
+            </section>
+
+            <!-- ONGLET 3: RAIDS COOPÉRATIFS -->
+            <section class="tab-content" id="raids-tab">
+                <div class="section-header">
+                    <div>
+                        <h2>🐉 Raids Coopératifs</h2>
+                        <p class="section-subtitle">Combattez des boss puissants en infligeant des dégâts via vos quêtes</p>
+                    </div>
+                </div>
+                <div class="raids-list" id="raidsContainer"></div>
+            </section>
+
+            <!-- ONGLET 4: SOCIAL & LOGS -->
+            <section class="tab-content" id="social-tab">
+                <div class="social-grid">
+                    <!-- Chat Global de Guilde -->
+                    <div class="social-card chat-shell">
+                        <h3>🌍 Chat Global</h3>
+                        <div class="chat-messages" id="globalChatMessages"></div>
+                        <div class="chat-input-row">
+                            <input 
+                                id="globalChatInput" 
+                                type="text" 
+                                placeholder="Message au groupe..."
+                                maxlength="150"
+                            >
+                            <button class="btn-primary" id="globalChatSend">📤 Envoyer</button>
+                        </div>
+                    </div>
+
+                    <!-- Journal d'Actions & Système d'Annulation -->
+                    <div class="social-card">
+                        <h3>🧾 Journal & Annulation</h3>
+                        <p class="helper-text">Une erreur de clic ? Annulez la dernière distribution d'XP (10 minutes).</p>
+                        <div id="logsContainer" class="log-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 5: ADMIN (Caché par défaut) -->
+            <section class="tab-content" id="admin-tab">
+                <div class="section-header">
+                    <div>
+                        <h2>⚙️ Panneau Administrateur</h2>
+                        <p class="section-subtitle">Gestion avancée des comptes et modification des statistiques</p>
+                    </div>
+                </div>
+                <div class="admin-panel" id="adminPanelContent">
+                    <!-- Rempli dynamiquement par renderAdmin() -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <p>🎮 Quest Master RPG | Développé<span style="color: #ef4444;"></span> pour les aventuriers IRL</p>
+        </footer>
+
+    </div>
+
+    <!-- ==================== SCRIPTS FIREBASE & JEUX ====================  -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyASVyXFlzMLXCLEnktbSzGNm82KSqG_G7w",
+            authDomain: "rpg-multiplayer-system.firebaseapp.com",
+            projectId: "rpg-multiplayer-system",
+            storageBucket: "rpg-multiplayer-system.firebasestorage.app",
+            messagingSenderId: "614775769148",
+            appId: "1:614775769148:web:14c1ccc6ea1c5cba169b39",
+            measurementId: "G-C70EMXRHDY"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.auth = getAuth(app);
+    </script>
+
+    <!-- Script Principal du Jeu -->
+    <script src="script.js" defer></script>
+
+</body>
+</html>

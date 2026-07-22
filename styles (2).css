@@ -1,0 +1,1122 @@
+/* ==========================================================================
+   ⚔️ RPG QUEST MASTER - SYSTEME HUD & GRAPHISMES EVOLUÉS (STYLES.CSS)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. VARIABLES GLOBALES & PALETTE DE COULEURS
+   -------------------------------------------------------------------------- */
+:root {
+    /* === Thème Sombre Futuriste / Fantasy === */
+    --bg-main: #060810;
+    --bg-soft: rgba(15, 23, 42, 0.75);
+    --panel-bg: rgba(18, 26, 47, 0.65);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --panel-glow: rgba(99, 102, 241, 0.25);
+    
+    /* === Texte === */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    /* === Raretés des quêtes & Badges === */
+    --tier-sss: #ffd700;    /* Or Légendaire */
+    --tier-ss: #a855f7;     /* Violet Mythique */
+    --tier-s: #ef4444;      /* Rouge Épique */
+    --tier-a: #f97316;      /* Orange Rare */
+    --tier-b: #06b6d4;      /* Cyan Inhabituel */
+    --tier-c: #22c55e;      /* Vert Commun */
+    --tier-d: #94a3b8;      /* Gris Facile */
+    --tier-e: #475569;      /* Sombre Très Facile */
+
+    /* === Classes de Joueurs === */
+    --class-warrior: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
+    --class-mage: linear-gradient(135deg, #a855f7 0%, #6b21a8 100%);
+    --class-archer: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+    --class-paladin: linear-gradient(135deg, #eab308 0%, #a16207 100%);
+
+    /* === Effets & Glassmorphism === */
+    --glass-blur: blur(16px);
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --shadow-main: 0 20px 40px rgba(0, 0, 0, 0.6);
+    --glow-primary: 0 0 20px rgba(99, 102, 241, 0.4);
+
+    /* === Espacements (Mobile-First) === */
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 20px;
+    --spacing-xl: 24px;
+    --spacing-2xl: 32px;
+
+    /* === Hauteurs tactiles minimales === */
+    --touch-target-min: 44px;
+    --btn-padding-compact: 10px 16px;
+    --btn-padding-normal: 12px 22px;
+
+    /* === Gap & Padding === */
+    --gap-compact: 8px;
+    --gap-normal: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   2. REINITIALISATION ET ARRIÈRE-PLAN ANIMÉ
+   -------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Rajdhani', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    letter-spacing: 0.5px;
+}
+
+/* Grille holographique en arrière-plan */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: 
+        linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+}
+
+/* Sphères orbes de lumière ambiante */
+.ambient {
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+    animation: ambientPulse 12s infinite alternate ease-in-out;
+}
+
+.ambient-1 { top: -100px; left: -100px; background: #4f46e5; }
+.ambient-2 { top: 30%; right: -150px; background: #9333ea; }
+.ambient-3 { bottom: -100px; left: 25%; background: #06b6d4; }
+
+@keyframes ambientPulse {
+    0% { transform: scale(1) translate(0, 0); opacity: 0.25; }
+    100% { transform: scale(1.2) translate(30px, -20px); opacity: 0.45; }
+}
+
+/* Scrollbar Personnalisée RPG */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar-thumb { 
+    background: #1e293b; 
+    border-radius: 4px; 
+    border: 1px solid var(--panel-border); 
+}
+::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+/* --------------------------------------------------------------------------
+   3. CONTENEUR PRINCIPAL & HERO HEADER (MOBILE-FIRST)
+   -------------------------------------------------------------------------- */
+.app-shell {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1400px;
+    margin: var(--spacing-lg) auto var(--spacing-2xl);
+    padding: 0 var(--spacing-sm);
+}
+
+.hero-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.65));
+    border: 1px solid var(--panel-border);
+    box-shadow: var(--shadow-main), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: var(--glass-blur);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-panel::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, #6366f1, #a855f7, transparent);
+}
+
+@media (min-width: 768px) {
+    .hero-panel {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-xl) var(--spacing-2xl);
+    }
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    color: #818cf8;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    white-space: nowrap;
+}
+
+.hero-main h1 {
+    font-family: 'Cinzel', serif;
+    margin: var(--spacing-sm) 0;
+    font-size: clamp(1.8rem, 5vw, 3.8rem);
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    word-break: break-word;
+}
+
+.hero-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 700px;
+    line-height: 1.5;
+}
+
+.hero-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   4. TABLEAU DE BORD (DASHBOARD CARDS) - MOBILE-FIRST
+   -------------------------------------------------------------------------- */
+.hero-dashboard,
+.quests-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+}
+
+.info-card {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: var(--glass-blur);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.info-label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-xs);
+}
+
+.info-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   5. NAVIGATION & ONGLETS (HUD TABS) - MOBILE-FIRST
+   -------------------------------------------------------------------------- */
+.nav-tabs {
+    display: flex;
+    gap: var(--gap-compact);
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-xl);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: var(--glass-blur);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+.tab-btn {
+    flex: 1;
+    min-width: 90px;
+    min-height: var(--touch-target-min);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-lg);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.2));
+    color: #ffffff;
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25), inset 0 0 10px rgba(99, 102, 241, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   6. CONTENU SECTIONS & FILTRES
+   -------------------------------------------------------------------------- */
+.main-content {
+    display: grid;
+    gap: var(--spacing-xl);
+}
+
+.tab-content {
+    display: none;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: var(--glass-blur);
+    box-shadow: var(--shadow-main);
+}
+
+@media (min-width: 768px) {
+    .tab-content {
+        padding: var(--spacing-xl);
+    }
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeInContent 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInContent {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.section-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 1.8rem);
+    color: #ffffff;
+    letter-spacing: 1px;
+    word-break: break-word;
+}
+
+.section-subtitle {
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. BOUTONS D'ACTION GÉNÉRAUX - MOBILE-FIRST
+   -------------------------------------------------------------------------- */
+.btn-primary, .btn-secondary, .btn-add, .btn-reset, .btn-icon, 
+.btn-complete, .btn-attack, .btn-heal, .btn-raid-battle, .btn-raid-delete, .btn-undo {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    text-transform: uppercase;
+    min-height: var(--touch-target-min);
+}
+
+/* === Boutons Primaires === */
+.btn-primary, .btn-add, .btn-attack, .btn-raid-battle {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    padding: var(--btn-padding-compact);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+}
+
+@media (min-width: 768px) {
+    .btn-primary, .btn-add, .btn-attack, .btn-raid-battle {
+        padding: var(--btn-padding-normal);
+    }
+}
+
+.btn-primary:hover, .btn-add:hover, .btn-attack:hover, .btn-raid-battle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+    background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+}
+
+/* === Boutons Secondaires === */
+.btn-secondary, .btn-reset, .btn-raid-delete {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    border: 1px solid var(--panel-border);
+    padding: var(--btn-padding-compact);
+}
+
+@media (min-width: 768px) {
+    .btn-secondary, .btn-reset, .btn-raid-delete {
+        padding: var(--btn-padding-normal);
+    }
+}
+
+.btn-secondary:hover, .btn-reset:hover, .btn-raid-delete:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+/* === Bouton Annuler === */
+.btn-undo {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.btn-undo:hover {
+    background: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+/* === Boutons Icones === */
+.btn-icon {
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    border: 1px solid var(--panel-border);
+    font-size: 1.2rem;
+    padding: 0;
+}
+
+.btn-icon:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+/* === Bouton Compléter === */
+.btn-complete {
+    width: 100%;
+    min-height: var(--touch-target-min);
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: #ffffff;
+    font-weight: 800;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.btn-complete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+}
+
+/* --------------------------------------------------------------------------
+   8. FILTRES DE QUÊTES
+   -------------------------------------------------------------------------- */
+.quest-filter {
+    display: flex;
+    gap: var(--gap-compact);
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--panel-border);
+    color: var(--text-secondary);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+}
+
+.filter-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.filter-btn.active {
+    background: #6366f1;
+    color: #ffffff;
+    border-color: #6366f1;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   9. RARETÉ DES QUÊTES (EFFET WOW SSS A E)
+   -------------------------------------------------------------------------- */
+.quests-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+@media (min-width: 640px) {
+    .quests-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .quests-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+.quest-card {
+    border-radius: var(--radius-lg);
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--panel-border);
+    padding: var(--spacing-lg);
+    position: relative;
+    backdrop-filter: var(--glass-blur);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.quest-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* --- TIER SSS (Légendaire / Annuel) --- */
+.quest-card.rarity-sss, .quest-card.tier-sss {
+    border: 2px solid var(--tier-sss);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.1);
+    animation: sssGlow 4s infinite alternate ease-in-out;
+}
+
+.quest-card.rarity-sss .quest-rarity {
+    background: linear-gradient(135deg, #ffd700, #b45309);
+    color: #000000;
+    font-weight: 900;
+    box-shadow: 0 0 12px var(--tier-sss);
+}
+
+@keyframes sssGlow {
+    0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.2), inset 0 0 15px rgba(255, 215, 0, 0.1); }
+    100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.45), inset 0 0 15px rgba(255, 215, 0, 0.1); }
+}
+
+/* --- TIER SS (Mythique / Mensuel) --- */
+.quest-card.rarity-ss, .quest-card.tier-ss {
+    border: 1.5px solid var(--tier-ss);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+}
+
+.quest-card.rarity-ss .quest-rarity {
+    background: var(--tier-ss);
+    color: #ffffff;
+    box-shadow: 0 0 10px var(--tier-ss);
+}
+
+/* --- TIER S (Épique / Hebdomadaire) --- */
+.quest-card.rarity-s, .quest-card.tier-s {
+    border-left: 6px solid var(--tier-s);
+}
+
+.quest-card.rarity-s .quest-rarity { background: var(--tier-s); }
+
+/* --- TIER A à E (Quotidiennes) --- */
+.quest-card.rarity-a { border-left: 5px solid var(--tier-a); }
+.quest-card.rarity-a .quest-rarity { background: var(--tier-a); }
+
+.quest-card.rarity-b { border-left: 5px solid var(--tier-b); }
+.quest-card.rarity-b .quest-rarity { background: var(--tier-b); }
+
+.quest-card.rarity-c { border-left: 5px solid var(--tier-c); }
+.quest-card.rarity-c .quest-rarity { background: var(--tier-c); }
+
+.quest-card.rarity-d { border-left: 5px solid var(--tier-d); }
+.quest-card.rarity-d .quest-rarity { background: var(--tier-d); }
+
+.quest-card.rarity-e { border-left: 5px solid var(--tier-e); opacity: 0.85; }
+.quest-card.rarity-e .quest-rarity { background: var(--tier-e); }
+
+/* --- Contenu interne de la quête --- */
+.quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.quest-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    word-break: break-word;
+    flex: 1;
+}
+
+@media (min-width: 768px) {
+    .quest-title {
+        font-size: 1.25rem;
+    }
+}
+
+.quest-rarity {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.quest-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: var(--spacing-md);
+}
+
+.quest-rewards {
+    display: flex;
+    gap: var(--gap-compact);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.quest-xp, .quest-gold {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--panel-border);
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: #818cf8;
+    white-space: nowrap;
+}
+
+.quest-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-md);
+}
+
+.quest-card.completed {
+    opacity: 0.5;
+    filter: grayscale(0.6);
+}
+
+/* --------------------------------------------------------------------------
+   10. CARTES DES JOUEURS & BARRES D'XP - MOBILE-FIRST
+   -------------------------------------------------------------------------- */
+.players-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+@media (min-width: 640px) {
+    .players-list {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+.player-card {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: var(--glass-blur);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.player-avatar {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 768px) {
+    .player-avatar {
+        width: 64px;
+        height: 64px;
+        min-width: 64px;
+    }
+}
+
+.player-class-warrior { background: var(--class-warrior); }
+.player-class-mage { background: var(--class-mage); }
+.player-class-archer { background: var(--class-archer); }
+.player-class-paladin { background: var(--class-paladin); }
+
+.player-info h3 {
+    font-size: 1.15rem;
+    color: #ffffff;
+    word-break: break-word;
+}
+
+@media (min-width: 768px) {
+    .player-info h3 {
+        font-size: 1.3rem;
+    }
+}
+
+.player-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(99, 102, 241, 0.15);
+    color: #818cf8;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+/* === BARRES D'EXPERIENCE DYNAMIQUES === */
+.xp-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.xp-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.xp-bar {
+    height: 16px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--panel-border);
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.xp-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #6366f1, #a855f7, #06b6d4);
+    background-size: 200% 100%;
+    animation: xpBarAnimation 3s ease infinite;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+}
+
+@keyframes xpBarAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --------------------------------------------------------------------------
+   11. RAIDS & COMBATS COOPÉRATIFS - MOBILE-FIRST
+   -------------------------------------------------------------------------- */
+.raids-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+@media (min-width: 640px) {
+    .raids-list {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+}
+
+.raid-card {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(30, 27, 75, 0.7), rgba(15, 23, 42, 0.9));
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.raid-card:hover {
+    border-color: #ef4444;
+    box-shadow: 0 12px 35px rgba(239, 68, 68, 0.25);
+}
+
+.raid-enemy-hp-bar {
+    height: 18px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    overflow: hidden;
+    margin: var(--spacing-md) 0;
+}
+
+.raid-enemy-hp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ef4444, #b91c1c);
+    box-shadow: 0 0 10px #ef4444;
+    transition: width 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   12. CALENDRIER DES QUETES - MOBILE-FIRST
+   -------------------------------------------------------------------------- */
+.calendar-view {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--gap-compact);
+    font-size: 0.85rem;
+}
+
+.calendar-day {
+    min-height: 80px;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--panel-border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+    .calendar-day {
+        min-height: 100px;
+    }
+}
+
+.calendar-day.today {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.15);
+    box-shadow: inset 0 0 15px rgba(99, 102, 241, 0.3);
+}
+
+.calendar-day.event {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.08);
+}
+
+.calendar-day-number {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   13. SOCIAL, CHAT ET LOGS - MOBILE-FIRST
+   -------------------------------------------------------------------------- */
+.social-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+    .social-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+}
+
+.social-card {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: var(--glass-blur);
+}
+
+/* === Fenêtre de Chat === */
+.chat-shell {
+    display: flex;
+    flex-direction: column;
+    height: 420px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-compact);
+    padding-right: 6px;
+    margin: var(--spacing-md) 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.chat-message {
+    max-width: 85%;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--panel-border);
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+.chat-message.me {
+    align-self: flex-end;
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.chat-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.chat-input-row {
+    display: flex;
+    gap: var(--gap-compact);
+}
+
+.chat-input-row input, .modal-form input, .modal-form select, .auth-fields input {
+    flex: 1;
+    min-width: 0;
+    min-height: var(--touch-target-min);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--panel-border);
+    color: #ffffff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.chat-input-row input:focus, .modal-form input:focus, .auth-fields input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+/* === Journal des Actions (Logs) === */
+.log-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-compact);
+    max-height: 320px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--panel-border);
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+/* --------------------------------------------------------------------------
+   14. FENÊTRES MODALES (MODALS) - MOBILE-FIRST
+   -------------------------------------------------------------------------- */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding: var(--spacing-md);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modal.show {
+    display: grid;
+    place-items: center;
+    animation: modalFadeIn 0.2s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content {
+    width: min(580px, calc(100% - 32px));
+    max-height: 90vh;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    background: rgba(18, 26, 47, 0.95);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(99, 102, 241, 0.2);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.close {
+    float: right;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: var(--spacing-xs);
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close:hover { color: #ffffff; }
+
+/* --------------------------------------------------------------------------
+   15. EFFETS VISUELS ET NOTIFICATIONS XP/DAMAGE
+   -------------------------------------------------------------------------- */
+#confetti {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4000;
+}
+
+.xp-notification, .damage-notification {
+    position: fixed;
+    z-index: 5000;
+    pointer-events: none;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    opacity: 0;
+}
+
+.xp-notification {
+    color: #4ade80;
+    text-shadow: 0 0 15px #22c55e;
+}
+
+.damage-notification {
+    color: #f87171;
+    text-shadow: 0 0 15px #ef4444;
+}
+
+.xp-float, .damage-float {
+    animation: popAndFloat 1.2s ease-out forwards;
+}
+
+@keyframes popAndFloat {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    20% { opacity: 1; transform: translate(-50%, -80%) scale(1.2); }
+    100% { opacity: 0; transform: translate(-50%, -150%) scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   16. RESPONSIVE UTILITIES & MEDIA QUERIES
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 639px) {
+    /* Désactiver les effects coûteux sur mobile */
+    .ambient {
+        opacity: 0.15;
+    }
+
+    /* Optimisations tactiles */
+    .tab-btn {
+        font-size: 0.85rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .hero-dashboard,
+    .quests-info {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}
+
+/* Landscape mobile */
+@media (max-height: 600px) and (min-width: 640px) {
+    .hero-panel {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .modal-content {
+        max-height: 95vh;
+    }
+}
