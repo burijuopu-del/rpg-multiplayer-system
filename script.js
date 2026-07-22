@@ -544,6 +544,168 @@ function validateAdminCode() {
     } else {
         toast('Code incorrect', 'error');
     }
+    // ==================== ADMIN HIDDEN TOOLS ====================
+
+const ADMIN_ACCESS_KEY = 'adminUnlocked';
+
+function isAdminUnlocked() {
+    return sessionStorage.getItem(ADMIN_ACCESS_KEY) === 'true';
+}
+
+function setAdminUnlocked(value) {
+    if (value) {
+        sessionStorage.setItem(ADMIN_ACCESS_KEY, 'true');
+    } else {
+        sessionStorage.removeItem(ADMIN_ACCESS_KEY);
+    }
+    renderAdminTools();
+}
+
+function renderAdminTools() {
+    const lockedView = document.getElementById('adminLockedView');
+    const unlockedView = document.getElementById('adminUnlockedView');
+
+    if (!lockedView || !unlockedView) return;
+
+    if (isAdminUnlocked()) {
+        lockedView.style.display = 'none';
+        unlockedView.style.display = 'block';
+    } else {
+        lockedView.style.display = 'block';
+        unlockedView.style.display = 'none';
+    }
+}
+
+function unlockAdmin() {
+    const input = document.getElementById('adminCodeInput');
+    if (!input) return;
+
+    const code = input.value.trim();
+
+    const correctCode = 'Oresama';
+
+    if (code === correctCode) {
+        setAdminUnlocked(true);
+        showToast('Accès admin accordé.', 'success');
+        input.value = '';
+    } else {
+        showToast('Code incorrect.', 'error');
+    }
+}
+    // ==================== CUSTOM QUEST MANAGER ====================
+
+function parseQuestLine(line) {
+    const parts = line.split('|').map(v => v.trim());
+
+    // Format attendu :
+    // Titre | Description | Rang | Stat | XP | Or
+    if (parts.length < 6) return null;
+
+    const [title, description, rarity, stat, xp, gold] = parts;
+
+    if (!GAME_CONFIG.questRarities[rarity]) return null;
+    if (stat && !GAME_CONFIG.statDefinitions[stat]) return null;
+
+    return {
+        id: `custom_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        type: 'custom',
+        rarity,
+        title,
+        description,
+        stat: stat || null,
+        statGain: rarity === 'SSS' ? 6 : rarity === 'SS' ? 4 : rarity === 'S' ? 3 : rarity === 'A' ? 2 : 1,
+        xp: Number(xp) || GAME_CONFIG.questRarities[rarity].xp,
+        gold: Number(gold) || GAME_CONFIG.questRarities[rarity].gold,
+        completed: false,
+        completedAt: null,
+        createdByAdmin: true
+    };
+}
+
+function addCustomQuestsFromInput() {
+    const input = document.getElementById('customQuestInput');
+    if (!input) return;
+
+    const lines = input.value
+        .split('\n')
+        .map(line => line.trim())
+        .filter(Boolean);
+
+    if (!lines.length) {
+        showToast('Écris au moins une quête.', 'warning');
+        return;
+    }
+
+    const created = [];
+
+    lines.forEach(line => {
+        const quest = parseQuestLine(line);
+        if (quest) {
+            GameState.quests.push(quest);
+            created.push(quest);
+        }
+    });
+
+    if (!created.length) {
+        showToast('Aucune quête valide détectée.', 'warning');
+        return;
+    }
+
+    saveState();
+    renderAll();
+    showToast(`${created.length} quête(s) personnalisée(s) ajoutée(s).`, 'success');
+    input.value = '';
+}
+
+function clearCustomQuestInput() {
+    const input = document.getElementById('customQuestInput');
+    if (input) input.value = '';
+}
+
+function deleteQuest(questId) {
+    if (!confirm('Supprimer cette quête ?')) return;
+
+    GameState.quests = GameState.quests.filter(q => q.id !== questId);
+    saveState();
+    renderAll();
+    showToast('Quête supprimée.', 'info');
+}
+
+function toggleQuestCompletionAdmin(questId) {
+    const quest = GameState.quests.find(q => q.id === questId);
+    if (!quest) return;
+
+    quest.completed = !quest.completed;
+    quest.completedAt = quest.completed ? Date.now() : null;
+
+    saveState();
+    renderAll();
+}
+
+function renderAdminQuestList() {
+    const container = document.getElementById('adminQuestList');
+    if (!container) return;
+
+    const quests = GameState.quests || [];
+
+    container.innerHTML = quests.map(q => `
+        <div class="mini-card" style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+            <div>
+                <strong>${q.title}</strong><br>
+                <span style="color:#64748b;">${q.description || ''}</span><br>
+                <span class="badge-soft">Rang ${q.rarity}</span>
+                ${q.stat ? `<span class="badge-soft">${GAME_CONFIG.statDefinitions[q.stat]?.label || q.stat}</span>` : ''}
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn-secondary" onclick="toggleQuestCompletionAdmin('${q.id}')">
+                    ${q.completed ? 'Marquer non faite' : 'Marquer faite'}
+                </button>
+                <button class="btn-secondary" onclick="deleteQuest('${q.id}')">Supprimer</button>
+            </div>
+        </div>
+    `).join('');
+}
 }
 
 function deactivateAdmin() {
@@ -575,6 +737,7 @@ function renderAll() {
     renderChat();
     renderLogs();
     renderAdmin();
+    renderAdminQuestList();
     $('seasonBadge').textContent = getCurrentSeason().emoji + ' ' + getCurrentSeason().name;
 }
 
