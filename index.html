@@ -85,24 +85,35 @@
         </main>
 
 <footer class="site-footer">
-    <span>« Nous voulons être les poètes de notre vie, et tout d’abord dans les choses les plus petites et les plus quotidiennes. »</span>
+    <span> 🎮 Quest Master </span>
 </footer>
-        <div class="admin-custom-quest-box">
-    <h3>➕ Ajouter une quête personnalisée</h3>
-    <textarea id="customQuestInput" rows="5" placeholder="Exemple :
-Lire 20 minutes | Lecture d’un chapitre utile | C | intelligence | 20 | 15
+        <div id="adminLockedView">
+    <h2>⚙️ Panneau Admin</h2>
+    <p>Entrez le code pour accéder aux outils admin.</p>
+    <input type="password" id="adminCodeInput" placeholder="Code d'accès">
+    <button class="btn-primary" onclick="unlockAdmin()">Accéder</button>
+</div>
+
+<div id="adminUnlockedView" style="display:none;">
+    <h2>⚙️ Outils Admin</h2>
+
+    <div class="admin-custom-quest-box">
+        <h3>➕ Ajouter des quêtes personnalisées</h3>
+        <textarea id="customQuestInput" rows="6" placeholder="Titre | Description | Rang | Stat | XP | Or
+Lire 20 minutes | Lire un chapitre utile | C | intelligence | 20 | 15
 Boire 2 litres d’eau | Santé du corps | E | sante | 5 | 5"></textarea>
 
-    <div class="admin-actions-row">
-        <button class="btn-primary" onclick="addCustomQuestsFromInput()">Ajouter les quêtes écrites</button>
-        <button class="btn-secondary" onclick="clearCustomQuestInput()">Vider</button>
+        <div class="admin-actions-row">
+            <button class="btn-primary" onclick="addCustomQuestsFromInput()">Ajouter les quêtes écrites</button>
+            <button class="btn-secondary" onclick="clearCustomQuestInput()">Vider</button>
+        </div>
     </div>
 
-    <p class="helper-text">
-        Format : <strong>Titre | Description | Rang | Stat | XP | Or</strong><br>
-        Exemple de rang : E, D, C, B, A, S, SS, SSS
-    </p>
-        </div>
+    <div class="admin-custom-quest-box" style="margin-top:20px;">
+        <h3>🛠️ Gestion des quêtes existantes</h3>
+        <div id="adminQuestList"></div>
+    </div>
+</div>
     </div>
 
     <!-- MODAUX -->
