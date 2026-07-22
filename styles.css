@@ -1,69 +1,71 @@
 /* ==========================================================================
-   ⚔️ RPG QUEST MASTER - SYSTEME HUD & GRAPHISMES EVOLUÉS (STYLES.CSS)
+   ⚔️ RPG QUEST MASTER - INTERFACE ÉPIQUE & BRILLANTE (STYLES.CSS)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Rajdhani:wght@500;600;700&family=Poppins:wght@600;700;800;900&display=swap');
 
 /* --------------------------------------------------------------------------
-   1. VARIABLES GLOBALES & PALETTE DE COULEURS
+   1. VARIABLES GLOBALES & PALETTE VIBRANTE
    -------------------------------------------------------------------------- */
 :root {
-    /* === Thème Sombre Futuriste / Fantasy === */
-    --bg-main: #060810;
-    --bg-soft: rgba(15, 23, 42, 0.75);
-    --panel-bg: rgba(18, 26, 47, 0.65);
-    --panel-border: rgba(255, 255, 255, 0.08);
-    --panel-glow: rgba(99, 102, 241, 0.25);
+    /* === THÈME VIBRANT DÉGRADÉ === */
+    --bg-main: linear-gradient(135deg, #0f0f2e 0%, #1a1a3f 50%, #0f1f3f 100%);
+    --bg-soft: rgba(20, 30, 60, 0.85);
+    --panel-bg: rgba(25, 35, 75, 0.6);
+    --panel-border: rgba(100, 200, 255, 0.3);
+    --panel-glow: rgba(100, 200, 255, 0.4);
+    
+    /* === GRADIENT PRIMAIRE ÉPIC === */
+    --gradient-epic: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    --gradient-fire: linear-gradient(135deg, #ff6b6b 0%, #ff8e72 50%, #ffd93d 100%);
+    --gradient-nature: linear-gradient(135deg, #22c55e 0%, #10b981 50%, #14b8a6 100%);
     
     /* === Texte === */
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    --text-primary: #ffffff;
+    --text-secondary: #b0c4de;
+    --text-muted: #7a8fa6;
 
-    /* === Raretés des quêtes & Badges === */
-    --tier-sss: #ffd700;    /* Or Légendaire */
-    --tier-ss: #a855f7;     /* Violet Mythique */
-    --tier-s: #ef4444;      /* Rouge Épique */
-    --tier-a: #f97316;      /* Orange Rare */
-    --tier-b: #06b6d4;      /* Cyan Inhabituel */
-    --tier-c: #22c55e;      /* Vert Commun */
-    --tier-d: #94a3b8;      /* Gris Facile */
-    --tier-e: #475569;      /* Sombre Très Facile */
+    /* === Raretés des quêtes === */
+    --tier-sss: #ffd700;
+    --tier-ss: #a855f7;
+    --tier-s: #ef4444;
+    --tier-a: #f97316;
+    --tier-b: #06b6d4;
+    --tier-c: #22c55e;
+    --tier-d: #94a3b8;
+    --tier-e: #64748b;
 
     /* === Classes de Joueurs === */
-    --class-warrior: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-    --class-mage: linear-gradient(135deg, #a855f7 0%, #6b21a8 100%);
-    --class-archer: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
-    --class-paladin: linear-gradient(135deg, #eab308 0%, #a16207 100%);
+    --class-warrior: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    --class-mage: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    --class-archer: linear-gradient(135deg, #22c55e 0%, #059669 100%);
+    --class-paladin: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
 
     /* === Effets & Glassmorphism === */
-    --glass-blur: blur(16px);
-    --radius-xl: 24px;
-    --radius-lg: 18px;
-    --radius-md: 12px;
-    --shadow-main: 0 20px 40px rgba(0, 0, 0, 0.6);
-    --glow-primary: 0 0 20px rgba(99, 102, 241, 0.4);
+    --glass-blur: blur(20px);
+    --radius-xl: 28px;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --shadow-main: 0 25px 50px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 30px rgba(100, 200, 255, 0.3);
+    --glow-primary: 0 0 25px rgba(100, 200, 255, 0.5);
 
-    /* === Espacements (Mobile-First) === */
+    /* === Espacements === */
     --spacing-xs: 8px;
     --spacing-sm: 12px;
     --spacing-md: 16px;
-    --spacing-lg: 20px;
-    --spacing-xl: 24px;
-    --spacing-2xl: 32px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
 
-    /* === Hauteurs tactiles minimales === */
-    --touch-target-min: 44px;
-    --btn-padding-compact: 10px 16px;
-    --btn-padding-normal: 12px 22px;
-
-    /* === Gap & Padding === */
-    --gap-compact: 8px;
-    --gap-normal: 12px;
+    /* === Hauteurs tactiles === */
+    --touch-target-min: 48px;
+    --btn-padding-compact: 12px 20px;
+    --btn-padding-normal: 14px 28px;
 }
 
 /* --------------------------------------------------------------------------
-   2. REINITIALISATION ET ARRIÈRE-PLAN ANIMÉ
+   2. RÉINITIALISATION & ARRIÈRE-PLAN ANIMÉ
    -------------------------------------------------------------------------- */
 * {
     box-sizing: border-box;
@@ -74,11 +76,12 @@
 html, body {
     min-height: 100vh;
     width: 100%;
-    background-color: var(--bg-main);
+    background: var(--bg-main);
     color: var(--text-primary);
-    font-family: 'Rajdhani', system-ui, -apple-system, sans-serif;
+    font-family: 'Poppins', 'Rajdhani', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
+    scroll-behavior: smooth;
 }
 
 /* Grille holographique en arrière-plan */
@@ -88,75 +91,103 @@ body::before {
     inset: 0;
     pointer-events: none;
     background-image: 
-        linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
+        linear-gradient(rgba(100, 200, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 200, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
     z-index: 0;
+    animation: gridShift 20s linear infinite;
 }
 
-/* Sphères orbes de lumière ambiante */
+@keyframes gridShift {
+    0% { background-position: 0 0; }
+    100% { background-position: 50px 50px; }
+}
+
+/* Sphères orbes de lumière ambiante - ANIMÉES */
 .ambient {
     position: fixed;
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     border-radius: 50%;
-    filter: blur(140px);
-    opacity: 0.35;
+    filter: blur(160px);
+    opacity: 0.4;
     pointer-events: none;
     z-index: 0;
-    animation: ambientPulse 12s infinite alternate ease-in-out;
+    animation: ambientPulse 15s infinite alternate ease-in-out;
 }
 
-.ambient-1 { top: -100px; left: -100px; background: #4f46e5; }
-.ambient-2 { top: 30%; right: -150px; background: #9333ea; }
-.ambient-3 { bottom: -100px; left: 25%; background: #06b6d4; }
+.ambient-1 { top: -150px; left: -150px; background: linear-gradient(135deg, #667eea, #764ba2); animation: float1 20s infinite; }
+.ambient-2 { top: 20%; right: -200px; background: linear-gradient(135deg, #ff6b6b, #ffd93d); animation: float2 25s infinite; }
+.ambient-3 { bottom: -150px; left: 10%; background: linear-gradient(135deg, #22c55e, #14b8a6); animation: float3 22s infinite; }
 
 @keyframes ambientPulse {
-    0% { transform: scale(1) translate(0, 0); opacity: 0.25; }
-    100% { transform: scale(1.2) translate(30px, -20px); opacity: 0.45; }
+    0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+    100% { transform: scale(1.3) translate(40px, -30px); opacity: 0.5; }
+}
+
+@keyframes float1 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(50px, -50px) rotate(360deg); }
+}
+
+@keyframes float2 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(-50px, 50px) rotate(-360deg); }
+}
+
+@keyframes float3 {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-30px, 40px); }
 }
 
 /* Scrollbar Personnalisée RPG */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { 
-    background: #1e293b; 
-    border-radius: 4px; 
-    border: 1px solid var(--panel-border); 
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    border-radius: 6px; 
+    border: 2px solid rgba(100, 200, 255, 0.2);
+    box-shadow: 0 0 10px rgba(100, 200, 255, 0.3);
 }
-::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+::-webkit-scrollbar-thumb:hover { box-shadow: 0 0 20px rgba(100, 200, 255, 0.6); }
 
 /* --------------------------------------------------------------------------
-   3. CONTENEUR PRINCIPAL & HERO HEADER (MOBILE-FIRST)
+   3. CONTENEUR PRINCIPAL & HERO HEADER
    -------------------------------------------------------------------------- */
 .app-shell {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1500px;
     margin: var(--spacing-lg) auto var(--spacing-2xl);
-    padding: 0 var(--spacing-sm);
+    padding: 0 var(--spacing-md);
 }
 
 .hero-panel {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xl) var(--spacing-lg);
     border-radius: var(--radius-xl);
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.65));
-    border: 1px solid var(--panel-border);
-    box-shadow: var(--shadow-main), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(20, 30, 60, 0.9), rgba(40, 50, 100, 0.7));
+    border: 2px solid var(--panel-border);
+    box-shadow: var(--shadow-main), var(--shadow-glow), inset 0 2px 10px rgba(255, 255, 255, 0.1);
     backdrop-filter: var(--glass-blur);
     position: relative;
     overflow: hidden;
 }
 
-.hero-panel::after {
+.hero-panel::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, #6366f1, #a855f7, transparent);
+    top: 0; left: 0; width: 100%; height: 3px;
+    background: linear-gradient(90deg, transparent, #667eea, #764ba2, #f093fb, transparent);
+    animation: heroShine 3s infinite;
+}
+
+@keyframes heroShine {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
 }
 
 @media (min-width: 768px) {
@@ -172,144 +203,173 @@ body::before {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-xs);
-    padding: 6px 14px;
+    padding: 10px 18px;
     border-radius: 999px;
-    background: rgba(99, 102, 241, 0.15);
-    border: 1px solid rgba(99, 102, 241, 0.4);
-    color: #818cf8;
-    font-weight: 700;
-    font-size: 0.9rem;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(168, 85, 247, 0.2));
+    border: 2px solid rgba(100, 200, 255, 0.5);
+    color: #64c8ff;
+    font-weight: 800;
+    font-size: 0.95rem;
     text-transform: uppercase;
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 20px rgba(100, 200, 255, 0.4);
     white-space: nowrap;
+    animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 .hero-main h1 {
     font-family: 'Cinzel', serif;
     margin: var(--spacing-sm) 0;
-    font-size: clamp(1.8rem, 5vw, 3.8rem);
+    font-size: clamp(2rem, 6vw, 4.5rem);
     font-weight: 900;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #ffffff 0%, #64c8ff 50%, #a855f7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    background-clip: text;
+    filter: drop-shadow(0 8px 16px rgba(100, 200, 255, 0.3));
     word-break: break-word;
+    text-shadow: 0 0 30px rgba(100, 200, 255, 0.2);
 }
 
 .hero-subtitle {
     color: var(--text-secondary);
-    font-size: 1rem;
+    font-size: 1.05rem;
     max-width: 700px;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .hero-actions {
     display: flex;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
     align-items: center;
     flex-wrap: wrap;
 }
 
-/* --------------------------------------------------------------------------
-   4. TABLEAU DE BORD (DASHBOARD CARDS) - MOBILE-FIRST
-   -------------------------------------------------------------------------- */
-.hero-dashboard,
-.quests-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--spacing-md);
-    margin: var(--spacing-lg) 0;
-}
-
-.info-card {
-    padding: var(--spacing-md);
-    border-radius: var(--radius-lg);
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
-    backdrop-filter: var(--glass-blur);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease, border-color 0.2s ease;
-    min-height: 80px;
+/* Barre XP Hero */
+.hero-stats-summary {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 12px;
+    min-width: 280px;
+    padding: 16px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(100, 200, 255, 0.2);
 }
 
-.info-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(99, 102, 241, 0.4);
+.xp-bar-container {
+    width: 100%;
+    height: 20px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    overflow: hidden;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
-.info-label {
-    display: block;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: var(--spacing-xs);
+.xp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    border-radius: 999px;
+    box-shadow: 0 0 15px rgba(100, 200, 255, 0.6);
+    animation: xpShine 2s infinite;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.info-value {
-    display: block;
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #ffffff;
+@keyframes xpShine {
+    0%, 100% { box-shadow: 0 0 15px rgba(100, 200, 255, 0.6); }
+    50% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.8); }
 }
 
 /* --------------------------------------------------------------------------
-   5. NAVIGATION & ONGLETS (HUD TABS) - MOBILE-FIRST
+   4. NAVIGATION & ONGLETS (HUD TABS)
    -------------------------------------------------------------------------- */
 .nav-tabs {
     display: flex;
-    gap: var(--gap-compact);
+    gap: var(--spacing-sm);
     margin: var(--spacing-xl) 0;
-    padding: var(--spacing-xs);
+    padding: var(--spacing-md);
     border-radius: var(--radius-xl);
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
+    background: linear-gradient(135deg, rgba(20, 30, 60, 0.8), rgba(30, 40, 80, 0.6));
+    border: 2px solid rgba(100, 200, 255, 0.3);
     backdrop-filter: var(--glass-blur);
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .tab-btn {
     flex: 1;
-    min-width: 90px;
+    min-width: 110px;
     min-height: var(--touch-target-min);
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-lg);
     background: transparent;
     color: var(--text-secondary);
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 0.95rem;
     text-transform: uppercase;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-xs);
     white-space: nowrap;
+    position: relative;
+}
+
+.tab-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    background: transparent;
+    transition: all 0.3s ease;
+    z-index: -1;
 }
 
 .tab-btn:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(100, 200, 255, 0.1);
+    transform: translateY(-2px);
 }
 
 .tab-btn.active {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.2));
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.25), rgba(168, 85, 247, 0.25));
     color: #ffffff;
-    border-color: rgba(99, 102, 241, 0.5);
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25), inset 0 0 10px rgba(99, 102, 241, 0.2);
+    border-color: rgba(100, 200, 255, 0.6);
+    box-shadow: 0 8px 25px rgba(100, 200, 255, 0.3), inset 0 0 15px rgba(100, 200, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.tab-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #667eea, #764ba2, transparent);
+    border-radius: 3px;
+    animation: tabUnderline 0.5s ease;
+}
+
+@keyframes tabUnderline {
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
 }
 
 /* --------------------------------------------------------------------------
-   6. CONTENU SECTIONS & FILTRES
+   5. CONTENU SECTIONS & FILTRES
    -------------------------------------------------------------------------- */
 .main-content {
     display: grid;
@@ -318,28 +378,30 @@ body::before {
 
 .tab-content {
     display: none;
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xl);
     border-radius: var(--radius-xl);
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
+    background: linear-gradient(135deg, rgba(20, 30, 60, 0.85), rgba(30, 40, 80, 0.65));
+    border: 2px solid rgba(100, 200, 255, 0.2);
     backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-main);
-}
-
-@media (min-width: 768px) {
-    .tab-content {
-        padding: var(--spacing-xl);
-    }
+    box-shadow: var(--shadow-main), var(--shadow-glow);
 }
 
 .tab-content.active {
     display: block;
-    animation: fadeInContent 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeInContent 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeInContent {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+        filter: blur(5px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+        filter: blur(0);
+    }
 }
 
 .section-header {
@@ -353,44 +415,70 @@ body::before {
 
 .section-header h2 {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.5rem, 3vw, 1.8rem);
+    font-size: clamp(1.8rem, 3.5vw, 2.2rem);
     color: #ffffff;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffffff, #64c8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     word-break: break-word;
 }
 
 .section-subtitle {
     color: var(--text-secondary);
-    margin-top: 4px;
+    margin-top: 6px;
     font-size: 1rem;
+    font-weight: 500;
 }
 
 /* --------------------------------------------------------------------------
-   7. BOUTONS D'ACTION GÉNÉRAUX - MOBILE-FIRST
+   6. BOUTONS D'ACTION - ANIMATIONS ÉPIQUES
    -------------------------------------------------------------------------- */
 .btn-primary, .btn-secondary, .btn-add, .btn-reset, .btn-icon, 
 .btn-complete, .btn-attack, .btn-heal, .btn-raid-battle, .btn-raid-delete, .btn-undo {
     appearance: none;
     border: none;
     cursor: pointer;
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
     border-radius: var(--radius-md);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-xs);
     text-transform: uppercase;
     min-height: var(--touch-target-min);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet de vague sur les boutons */
+.btn-primary::before, .btn-complete::before, .btn-attack::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:active::before, .btn-complete:active::before, .btn-attack:active::before {
+    width: 300px;
+    height: 300px;
 }
 
 /* === Boutons Primaires === */
 .btn-primary, .btn-add, .btn-attack, .btn-raid-battle {
-    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     color: #ffffff;
     padding: var(--btn-padding-compact);
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 8px 25px rgba(100, 200, 255, 0.4), inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @media (min-width: 768px) {
@@ -400,17 +488,19 @@ body::before {
 }
 
 .btn-primary:hover, .btn-add:hover, .btn-attack:hover, .btn-raid-battle:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
-    background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(100, 200, 255, 0.6);
+    background: linear-gradient(135deg, #818cf8 0%, #9333ea 50%, #d946ef 100%);
+    filter: brightness(1.15);
 }
 
 /* === Boutons Secondaires === */
 .btn-secondary, .btn-reset, .btn-raid-delete {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.08);
     color: var(--text-primary);
-    border: 1px solid var(--panel-border);
+    border: 2px solid rgba(100, 200, 255, 0.4);
     padding: var(--btn-padding-compact);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 @media (min-width: 768px) {
@@ -420,40 +510,25 @@ body::before {
 }
 
 .btn-secondary:hover, .btn-reset:hover, .btn-raid-delete:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(100, 200, 255, 0.2);
+    border-color: rgba(100, 200, 255, 0.8);
     transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(100, 200, 255, 0.3);
 }
 
 /* === Bouton Annuler === */
 .btn-undo {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(239, 68, 68, 0.2);
     color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    padding: 6px 12px;
+    border: 2px solid rgba(239, 68, 68, 0.5);
+    padding: 8px 14px;
     font-size: 0.85rem;
 }
 
 .btn-undo:hover {
     background: #ef4444;
     color: #ffffff;
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-}
-
-/* === Boutons Icones === */
-.btn-icon {
-    width: var(--touch-target-min);
-    height: var(--touch-target-min);
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.06);
-    color: #ffffff;
-    border: 1px solid var(--panel-border);
-    font-size: 1.2rem;
-    padding: 0;
-}
-
-.btn-icon:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.7);
 }
 
 /* === Bouton Compléter === */
@@ -461,58 +536,86 @@ body::before {
     width: 100%;
     min-height: var(--touch-target-min);
     padding: var(--spacing-md);
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #059669 100%);
     color: #ffffff;
     font-weight: 800;
     border-radius: var(--radius-md);
-    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn-complete:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
-    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(34, 197, 94, 0.6);
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #10b981 100%);
+}
+
+.btn-complete:disabled {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+    cursor: not-allowed;
+}
+
+/* === Boutons Icones === */
+.btn-icon {
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border: 2px solid rgba(100, 200, 255, 0.3);
+    font-size: 1.3rem;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-icon:hover {
+    background: rgba(100, 200, 255, 0.2);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 20px rgba(100, 200, 255, 0.4);
 }
 
 /* --------------------------------------------------------------------------
-   8. FILTRES DE QUÊTES
+   7. FILTRES DE QUÊTES
    -------------------------------------------------------------------------- */
 .quest-filter {
     display: flex;
-    gap: var(--gap-compact);
+    gap: var(--spacing-sm);
     flex-wrap: wrap;
 }
 
 .filter-btn {
-    padding: 8px 14px;
+    padding: 10px 16px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--panel-border);
+    background: rgba(255, 255, 255, 0.06);
+    border: 2px solid rgba(100, 200, 255, 0.3);
     color: var(--text-secondary);
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     min-height: var(--touch-target-min);
     display: flex;
     align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .filter-btn:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(100, 200, 255, 0.12);
+    transform: translateY(-2px);
 }
 
 .filter-btn.active {
-    background: #6366f1;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: #ffffff;
-    border-color: #6366f1;
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    border-color: rgba(100, 200, 255, 0.8);
+    box-shadow: 0 8px 25px rgba(100, 200, 255, 0.5);
+    transform: scale(1.05);
 }
 
 /* --------------------------------------------------------------------------
-   9. RARETÉ DES QUÊTES (EFFET WOW SSS A E)
+   8. RARETÉ DES QUÊTES (EFFET WOW SSS A E)
    -------------------------------------------------------------------------- */
 .quests-grid {
     display: grid;
@@ -522,88 +625,107 @@ body::before {
 
 @media (min-width: 640px) {
     .quests-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 
 @media (min-width: 1024px) {
     .quests-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 }
 
 .quest-card {
     border-radius: var(--radius-lg);
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid var(--panel-border);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(25, 35, 75, 0.7));
+    border: 2px solid var(--panel-border);
     padding: var(--spacing-lg);
     position: relative;
     backdrop-filter: var(--glass-blur);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.quest-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+    z-index: 1;
 }
 
 .quest-card:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    border-color: rgba(100, 200, 255, 0.6);
+}
+
+.quest-card:hover::before {
+    left: 100%;
 }
 
 /* --- TIER SSS (Légendaire / Annuel) --- */
 .quest-card.rarity-sss, .quest-card.tier-sss {
     border: 2px solid var(--tier-sss);
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.1);
-    animation: sssGlow 4s infinite alternate ease-in-out;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.35), inset 0 0 20px rgba(255, 215, 0, 0.15);
+    animation: sssGlowIntense 3s infinite alternate ease-in-out;
 }
 
 .quest-card.rarity-sss .quest-rarity {
-    background: linear-gradient(135deg, #ffd700, #b45309);
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
     color: #000000;
     font-weight: 900;
-    box-shadow: 0 0 12px var(--tier-sss);
+    box-shadow: 0 0 15px var(--tier-sss);
 }
 
-@keyframes sssGlow {
-    0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.2), inset 0 0 15px rgba(255, 215, 0, 0.1); }
-    100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.45), inset 0 0 15px rgba(255, 215, 0, 0.1); }
+@keyframes sssGlowIntense {
+    0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.25), inset 0 0 20px rgba(255, 215, 0, 0.1); }
+    100% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.2); }
 }
 
 /* --- TIER SS (Mythique / Mensuel) --- */
 .quest-card.rarity-ss, .quest-card.tier-ss {
-    border: 1.5px solid var(--tier-ss);
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+    border: 2px solid var(--tier-ss);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
 }
 
 .quest-card.rarity-ss .quest-rarity {
-    background: var(--tier-ss);
+    background: linear-gradient(135deg, #a855f7, #d946ef);
     color: #ffffff;
-    box-shadow: 0 0 10px var(--tier-ss);
+    box-shadow: 0 0 12px var(--tier-ss);
 }
 
 /* --- TIER S (Épique / Hebdomadaire) --- */
 .quest-card.rarity-s, .quest-card.tier-s {
-    border-left: 6px solid var(--tier-s);
+    border-left: 5px solid var(--tier-s);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
 }
 
-.quest-card.rarity-s .quest-rarity { background: var(--tier-s); }
+.quest-card.rarity-s .quest-rarity { background: linear-gradient(135deg, #ef4444, #f87171); }
 
-/* --- TIER A à E (Quotidiennes) --- */
+/* --- TIER A à E --- */
 .quest-card.rarity-a { border-left: 5px solid var(--tier-a); }
-.quest-card.rarity-a .quest-rarity { background: var(--tier-a); }
+.quest-card.rarity-a .quest-rarity { background: linear-gradient(135deg, #f97316, #fb923c); }
 
 .quest-card.rarity-b { border-left: 5px solid var(--tier-b); }
-.quest-card.rarity-b .quest-rarity { background: var(--tier-b); }
+.quest-card.rarity-b .quest-rarity { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
 
 .quest-card.rarity-c { border-left: 5px solid var(--tier-c); }
-.quest-card.rarity-c .quest-rarity { background: var(--tier-c); }
+.quest-card.rarity-c .quest-rarity { background: linear-gradient(135deg, #22c55e, #4ade80); }
 
 .quest-card.rarity-d { border-left: 5px solid var(--tier-d); }
-.quest-card.rarity-d .quest-rarity { background: var(--tier-d); }
+.quest-card.rarity-d .quest-rarity { background: linear-gradient(135deg, #94a3b8, #cbd5e1); }
 
-.quest-card.rarity-e { border-left: 5px solid var(--tier-e); opacity: 0.85; }
-.quest-card.rarity-e .quest-rarity { background: var(--tier-e); }
+.quest-card.rarity-e { border-left: 5px solid var(--tier-e); opacity: 0.9; }
+.quest-card.rarity-e .quest-rarity { background: linear-gradient(135deg, #64748b, #94a3b8); }
 
 /* --- Contenu interne de la quête --- */
 .quest-header {
@@ -612,54 +734,56 @@ body::before {
     align-items: flex-start;
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 2;
 }
 
 .quest-title {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 800;
     color: #ffffff;
     word-break: break-word;
     flex: 1;
 }
 
-@media (min-width: 768px) {
-    .quest-title {
-        font-size: 1.25rem;
-    }
-}
-
 .quest-rarity {
-    padding: 4px 10px;
+    padding: 6px 12px;
     border-radius: 999px;
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
     white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .quest-description {
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.5;
+    font-size: 0.95rem;
+    line-height: 1.6;
     margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 2;
 }
 
 .quest-rewards {
     display: flex;
-    gap: var(--gap-compact);
+    gap: var(--spacing-sm);
     margin-bottom: var(--spacing-md);
     flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
 }
 
 .quest-xp, .quest-gold {
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--panel-border);
+    background: rgba(100, 200, 255, 0.15);
+    border: 1px solid rgba(100, 200, 255, 0.4);
     font-weight: 800;
-    font-size: 0.8rem;
-    color: #818cf8;
+    font-size: 0.85rem;
+    color: #64c8ff;
     white-space: nowrap;
+    box-shadow: 0 0 10px rgba(100, 200, 255, 0.2);
 }
 
 .quest-footer {
@@ -667,15 +791,17 @@ body::before {
     justify-content: space-between;
     align-items: center;
     margin-top: var(--spacing-md);
+    position: relative;
+    z-index: 2;
 }
 
 .quest-card.completed {
-    opacity: 0.5;
-    filter: grayscale(0.6);
+    opacity: 0.6;
+    filter: grayscale(0.7);
 }
 
 /* --------------------------------------------------------------------------
-   10. CARTES DES JOUEURS & BARRES D'XP - MOBILE-FIRST
+   9. CARTES DES JOUEURS & BARRES D'XP
    -------------------------------------------------------------------------- */
 .players-list {
     display: grid;
@@ -685,20 +811,27 @@ body::before {
 
 @media (min-width: 640px) {
     .players-list {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 }
 
 .player-card {
     padding: var(--spacing-lg);
     border-radius: var(--radius-lg);
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
+    background: linear-gradient(135deg, rgba(20, 30, 60, 0.9), rgba(30, 40, 80, 0.7));
+    border: 2px solid rgba(100, 200, 255, 0.3);
     backdrop-filter: var(--glass-blur);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.player-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(100, 200, 255, 0.6);
+    box-shadow: 0 15px 45px rgba(100, 200, 255, 0.2);
 }
 
 .player-header {
@@ -708,22 +841,21 @@ body::before {
 }
 
 .player-avatar {
-    width: 60px;
-    height: 60px;
-    min-width: 60px;
-    border-radius: 18px;
+    width: 70px;
+    height: 70px;
+    min-width: 70px;
+    border-radius: 16px;
     display: grid;
     place-items: center;
-    font-size: 2rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    font-size: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    animation: avatarFloat 3s ease-in-out infinite;
 }
 
-@media (min-width: 768px) {
-    .player-avatar {
-        width: 64px;
-        height: 64px;
-        min-width: 64px;
-    }
+@keyframes avatarFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
 }
 
 .player-class-warrior { background: var(--class-warrior); }
@@ -732,33 +864,29 @@ body::before {
 .player-class-paladin { background: var(--class-paladin); }
 
 .player-info h3 {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: #ffffff;
     word-break: break-word;
-}
-
-@media (min-width: 768px) {
-    .player-info h3 {
-        font-size: 1.3rem;
-    }
+    font-weight: 800;
 }
 
 .player-badge {
     display: inline-block;
-    padding: 4px 10px;
+    padding: 6px 12px;
     border-radius: 999px;
-    background: rgba(99, 102, 241, 0.15);
-    color: #818cf8;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(168, 85, 247, 0.2));
+    color: #64c8ff;
     font-size: 0.8rem;
     font-weight: 700;
-    margin-top: 4px;
+    margin-top: 6px;
+    border: 1px solid rgba(100, 200, 255, 0.4);
 }
 
 /* === BARRES D'EXPERIENCE DYNAMIQUES === */
 .xp-container {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .xp-label {
@@ -770,33 +898,31 @@ body::before {
 }
 
 .xp-bar {
-    height: 16px;
+    height: 18px;
     border-radius: 999px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--panel-border);
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(100, 200, 255, 0.3);
     overflow: hidden;
     position: relative;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9);
 }
 
 .xp-fill {
     height: 100%;
     border-radius: 999px;
-    background: linear-gradient(90deg, #6366f1, #a855f7, #06b6d4);
-    background-size: 200% 100%;
-    animation: xpBarAnimation 3s ease infinite;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    animation: xpFlow 2s ease infinite;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 15px rgba(100, 200, 255, 0.7);
 }
 
-@keyframes xpBarAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+@keyframes xpFlow {
+    0%, 100% { background: linear-gradient(90deg, #667eea, #764ba2, #f093fb); }
+    50% { background: linear-gradient(90deg, #764ba2, #f093fb, #667eea); }
 }
 
 /* --------------------------------------------------------------------------
-   11. RAIDS & COMBATS COOPÉRATIFS - MOBILE-FIRST
+   10. RAIDS & COMBATS COOPÉRATIFS
    -------------------------------------------------------------------------- */
 .raids-list {
     display: grid;
@@ -806,86 +932,44 @@ body::before {
 
 @media (min-width: 640px) {
     .raids-list {
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     }
 }
 
 .raid-card {
     padding: var(--spacing-xl);
     border-radius: var(--radius-lg);
-    background: linear-gradient(180deg, rgba(30, 27, 75, 0.7), rgba(15, 23, 42, 0.9));
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: linear-gradient(135deg, rgba(30, 27, 75, 0.85), rgba(15, 23, 42, 0.95));
+    border: 2px solid rgba(239, 68, 68, 0.4);
+    box-shadow: 0 12px 35px rgba(239, 68, 68, 0.15);
+    transition: all 0.3s ease;
 }
 
 .raid-card:hover {
-    border-color: #ef4444;
-    box-shadow: 0 12px 35px rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.7);
+    box-shadow: 0 15px 45px rgba(239, 68, 68, 0.3);
+    transform: translateY(-5px);
 }
 
 .raid-enemy-hp-bar {
-    height: 18px;
+    height: 20px;
     border-radius: 999px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(239, 68, 68, 0.4);
     overflow: hidden;
     margin: var(--spacing-md) 0;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9);
 }
 
 .raid-enemy-hp-fill {
     height: 100%;
-    background: linear-gradient(90deg, #ef4444, #b91c1c);
-    box-shadow: 0 0 10px #ef4444;
+    background: linear-gradient(90deg, #ef4444, #ff6b6b);
+    box-shadow: 0 0 15px #ef4444;
     transition: width 0.3s ease;
 }
 
 /* --------------------------------------------------------------------------
-   12. CALENDRIER DES QUETES - MOBILE-FIRST
-   -------------------------------------------------------------------------- */
-.calendar-view {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: var(--gap-compact);
-    font-size: 0.85rem;
-}
-
-.calendar-day {
-    min-height: 80px;
-    padding: var(--spacing-sm);
-    border-radius: var(--radius-md);
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid var(--panel-border);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-@media (min-width: 768px) {
-    .calendar-day {
-        min-height: 100px;
-    }
-}
-
-.calendar-day.today {
-    border-color: #6366f1;
-    background: rgba(99, 102, 241, 0.15);
-    box-shadow: inset 0 0 15px rgba(99, 102, 241, 0.3);
-}
-
-.calendar-day.event {
-    border-color: #ffd700;
-    background: rgba(255, 215, 0, 0.08);
-}
-
-.calendar-day-number {
-    font-weight: 800;
-    font-size: 1rem;
-    color: #ffffff;
-}
-
-/* --------------------------------------------------------------------------
-   13. SOCIAL, CHAT ET LOGS - MOBILE-FIRST
+   11. SOCIAL, CHAT ET LOGS
    -------------------------------------------------------------------------- */
 .social-grid {
     display: grid;
@@ -895,23 +979,33 @@ body::before {
 
 @media (min-width: 768px) {
     .social-grid {
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     }
 }
 
 .social-card {
     padding: var(--spacing-xl);
     border-radius: var(--radius-lg);
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
+    background: linear-gradient(135deg, rgba(20, 30, 60, 0.9), rgba(30, 40, 80, 0.7));
+    border: 2px solid rgba(100, 200, 255, 0.3);
     backdrop-filter: var(--glass-blur);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
 }
 
-/* === Fenêtre de Chat === */
+.social-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-md);
+    background: linear-gradient(135deg, #ffffff, #64c8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+/* === Chat === */
 .chat-shell {
     display: flex;
     flex-direction: column;
-    height: 420px;
+    height: 480px;
 }
 
 .chat-messages {
@@ -919,26 +1013,38 @@ body::before {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: var(--gap-compact);
-    padding-right: 6px;
+    gap: var(--spacing-sm);
+    padding-right: 8px;
     margin: var(--spacing-md) 0;
     -webkit-overflow-scrolling: touch;
 }
 
 .chat-message {
     max-width: 85%;
-    padding: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--panel-border);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(100, 200, 255, 0.2);
     font-size: 0.95rem;
     word-break: break-word;
+    animation: chatBubble 0.3s ease;
+}
+
+@keyframes chatBubble {
+    from { 
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .chat-message.me {
     align-self: flex-end;
-    background: rgba(99, 102, 241, 0.2);
-    border-color: rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.25), rgba(168, 85, 247, 0.2));
+    border-color: rgba(100, 200, 255, 0.5);
 }
 
 .chat-meta {
@@ -949,7 +1055,7 @@ body::before {
 
 .chat-input-row {
     display: flex;
-    gap: var(--gap-compact);
+    gap: var(--spacing-sm);
 }
 
 .chat-input-row input, .modal-form input, .modal-form select, .auth-fields input {
@@ -959,25 +1065,26 @@ body::before {
     padding: var(--spacing-md);
     border-radius: var(--radius-md);
     background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--panel-border);
+    border: 2px solid rgba(100, 200, 255, 0.3);
     color: #ffffff;
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .chat-input-row input:focus, .modal-form input:focus, .auth-fields input:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+    border-color: rgba(100, 200, 255, 0.8);
+    box-shadow: 0 0 15px rgba(100, 200, 255, 0.4);
+    background: rgba(0, 0, 0, 0.6);
 }
 
-/* === Journal des Actions (Logs) === */
+/* === Journal des Actions === */
 .log-list {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-compact);
-    max-height: 320px;
+    gap: var(--spacing-sm);
+    max-height: 360px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -986,137 +1093,293 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
     border-radius: var(--radius-md);
     background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--panel-border);
+    border: 1px solid rgba(100, 200, 255, 0.2);
     font-size: 0.9rem;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
+    transition: all 0.3s ease;
+}
+
+.log-item:hover {
+    background: rgba(100, 200, 255, 0.1);
+    border-color: rgba(100, 200, 255, 0.4);
 }
 
 /* --------------------------------------------------------------------------
-   14. FENÊTRES MODALES (MODALS) - MOBILE-FIRST
+   12. MODALES (MODALS)
    -------------------------------------------------------------------------- */
 .modal {
     display: none;
     position: fixed;
-    inset: 0;
     z-index: 3000;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    padding: var(--spacing-md);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    animation: modalFade 0.3s ease;
+}
+
+@keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .modal.show {
-    display: grid;
-    place-items: center;
-    animation: modalFadeIn 0.2s ease;
-}
-
-@keyframes modalFadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-.modal-content {
-    width: min(580px, calc(100% - 32px));
-    max-height: 90vh;
-    padding: var(--spacing-xl);
-    border-radius: var(--radius-xl);
-    background: rgba(18, 26, 47, 0.95);
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(99, 102, 241, 0.2);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.close {
-    float: right;
-    font-size: 1.8rem;
-    cursor: pointer;
-    color: var(--text-muted);
-    padding: var(--spacing-xs);
-    width: var(--touch-target-min);
-    height: var(--touch-target-min);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.close:hover { color: #ffffff; }
-
-/* --------------------------------------------------------------------------
-   15. EFFETS VISUELS ET NOTIFICATIONS XP/DAMAGE
-   -------------------------------------------------------------------------- */
-#confetti {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 4000;
+.modal-content {
+    background: linear-gradient(135deg, rgba(20, 30, 60, 0.95), rgba(30, 40, 80, 0.85));
+    border: 2px solid rgba(100, 200, 255, 0.4);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    animation: modalSlide 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
 }
 
-.xp-notification, .damage-notification {
+@keyframes modalSlide {
+    from { 
+        transform: translateY(-50px) scale(0.95);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    color: #ffffff;
+    margin-bottom: var(--spacing-md);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.modal-content p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.close:hover {
+    color: #ffffff;
+    transform: rotate(90deg) scale(1.2);
+}
+
+/* --------------------------------------------------------------------------
+   13. NOTIFICATOINS & TOASTS
+   -------------------------------------------------------------------------- */
+#toastContainer {
     position: fixed;
+    bottom: 30px;
+    right: 30px;
     z-index: 5000;
-    pointer-events: none;
-    font-family: 'Cinzel', serif;
-    font-weight: 900;
-    font-size: clamp(1.5rem, 5vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rpg-toast {
+    padding: 16px 24px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.95), rgba(168, 85, 247, 0.85));
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+    animation: toastSlide 0.3s ease;
     opacity: 0;
 }
 
+@keyframes toastSlide {
+    from { 
+        transform: translateX(400px) translateY(0);
+        opacity: 0;
+    }
+    to { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.rpg-toast.show {
+    animation: toastSlide 0.3s ease forwards;
+}
+
+.rpg-toast.success {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.95), rgba(16, 185, 129, 0.85));
+}
+
+.rpg-toast.warning {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.95), rgba(251, 146, 60, 0.85));
+}
+
+.rpg-toast.error {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(248, 113, 113, 0.85));
+}
+
+/* === Notifications flottantes XP/Damage === */
+.xp-notification, .damage-notification {
+    position: fixed;
+    font-size: 1.5rem;
+    font-weight: 900;
+    pointer-events: none;
+    z-index: 2000;
+    animation: floatUp 1.5s ease-out forwards;
+}
+
 .xp-notification {
-    color: #4ade80;
-    text-shadow: 0 0 15px #22c55e;
+    color: #64c8ff;
+    text-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
 }
 
 .damage-notification {
-    color: #f87171;
-    text-shadow: 0 0 15px #ef4444;
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
 }
 
-.xp-float, .damage-float {
-    animation: popAndFloat 1.2s ease-out forwards;
-}
-
-@keyframes popAndFloat {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-    20% { opacity: 1; transform: translate(-50%, -80%) scale(1.2); }
-    100% { opacity: 0; transform: translate(-50%, -150%) scale(1); }
+@keyframes floatUp {
+    0% { 
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% { 
+        transform: translateY(-100px) scale(0.5);
+        opacity: 0;
+    }
 }
 
 /* --------------------------------------------------------------------------
-   16. RESPONSIVE UTILITIES & MEDIA QUERIES
+   14. FOOTER
    -------------------------------------------------------------------------- */
-
-@media (max-width: 639px) {
-    /* Désactiver les effects coûteux sur mobile */
-    .ambient {
-        opacity: 0.15;
-    }
-
-    /* Optimisations tactiles */
-    .tab-btn {
-        font-size: 0.85rem;
-        padding: var(--spacing-sm) var(--spacing-md);
-    }
-
-    .hero-dashboard,
-    .quests-info {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
+.app-footer {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    border-top: 1px solid rgba(100, 200, 255, 0.2);
+    margin-top: var(--spacing-2xl);
+    background: rgba(0, 0, 0, 0.3);
 }
 
-/* Landscape mobile */
-@media (max-height: 600px) and (min-width: 640px) {
+/* --------------------------------------------------------------------------
+   15. RESPONSIVE & ADAPTATIONS MOBILE
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+    :root {
+        --spacing-lg: 16px;
+        --spacing-xl: 20px;
+        --btn-padding-compact: 10px 16px;
+    }
+
     .hero-panel {
-        padding: var(--spacing-md) var(--spacing-lg);
+        padding: var(--spacing-md);
+    }
+
+    .nav-tabs {
+        gap: 6px;
+        padding: var(--spacing-sm);
+    }
+
+    .tab-btn {
+        min-width: 85px;
+        font-size: 0.8rem;
+        padding: 8px 10px;
     }
 
     .modal-content {
-        max-height: 95vh;
+        width: 95%;
+        padding: var(--spacing-lg);
+    }
+
+    #toastContainer {
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+    }
+
+    .rpg-toast {
+        padding: 12px 16px;
+        font-size: 0.9rem;
     }
 }
+
+@media (max-width: 480px) {
+    .quest-card, .player-card {
+        padding: var(--spacing-md);
+    }
+
+    .hero-main h1 {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    .section-header h2 {
+        font-size: clamp(1.3rem, 3vw, 1.6rem);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   16. ANIMATIONS GLOBALES
+   -------------------------------------------------------------------------- */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes shine {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 0; }
+}
+
+.glow-effect {
+    animation: pulse 2s infinite;
+}
+
+/* Scrollup animation */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Classe utilitaire pour les mini cartes */
+.mini-card {
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.badge-soft {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(100, 200, 255, 0.15);
+    color: #64c8ff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1px solid rgba(100, 200, 255, 0.3);
+}
+
+/* ===== FIN DES STYLES ===== */
