@@ -119,7 +119,35 @@
             <button class="btn-primary" onclick="createRaid()">Créer</button>
         </div>
     </div>
+     <!-- Notes -->
+<section class="tab-content" id="philosophy-tab">
+    <div class="section-header">
+        <div>
+            <h2>📝 Notes</h2>
+        </div>
+    </div>
 
+    <div class="philosophy-panel">
+        <div class="philosophy-card">
+            <h3 id="philosophyTitle">Humain, trop humain - Friedrich Nietzsche</h3>
+            <p id="philosophyText">
+                « L’art doit avant tout embellir la vie, donc nous rendre nous-mêmes tolérables aux autres et agréables si possible : ayant cette tâche en vue, il modère et nous tient en brides, crée des formes de civilité, lie ceux dont l’éducation n’est pas faite à des lois de convenance, de propreté, de politesse, leur apprend à parler et à se taire au bon moment. De plus, l’art doit dissimuler ou réinterpréter tout ce qui est laid, ces choses pénibles, épouvantables et dégoûtantes qui, malgré tout les efforts, à cause des origines de la nature humaine, viendront toujours de nouveau à la surface : il doit agir ainsi surtout pour ce qui en est des passions, des douleurs de l’âme et des craintes, et faire transparaître, dans la laideur inévitable ou insurmontable, son côté significatif. Après cette tâche de l’art, dont la grandeur va jusqu’à l’énormité, l’art que l’on appelle véritable, l’art des œuvres d’art, n’est qu’accessoire. »
+            </p>
+
+            <p id="philosophyCommentary">
+                L’homme doit inventer ses propres repères, comme un artiste. Beauté subjective : Le beau n’existe pas en soi, il est produit par le regard et l’interprétation. Chacun est invité à façonner sa vie comme une œuvre d’art. L’art est une manière de dire « oui » à l’existence, même dans sa dureté.
+            </p>
+        </div>
+
+        <div class="philosophy-admin">
+            <h3>✍️ Éditer le texte</h3>
+            <input type="text" id="philosophyTitleInput" placeholder="Titre du texte">
+            <textarea id="philosophyTextInput" rows="8" placeholder="Colle ou écris un autre texte ici..."></textarea>
+            <textarea id="philosophyCommentaryInput" rows="6" placeholder="Ajoute ton commentaire / interprétation ici..."></textarea>
+            <button class="btn-primary" onclick="savePhilosophyText()">Enregistrer le texte</button>
+        </div>
+    </div>
+</section>
     <script src="script.js"></script>
 </body>
 </html>
