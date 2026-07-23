@@ -152,11 +152,152 @@ const GameState = {
     isAdmin: false
 };
 
+const FB = {
+    auth: null,
+    db: null,
+    user: null,
+    fs: null,
+    unsubPlayers: null,
+    unsubQuests: null,
+    unsubRaids: null,
+    unsubLogs: null,
+    unsubChats: null
+};
+
+const COL = {
+    users: "users",
+    players: "players",
+    quests: "quests",
+    raids: "raids",
+    logs: "logs",
+    chatsGlobal: "chats_global",
+    chatsDm: "chats_dm"
+};
+
 const $ = id => document.getElementById(id);
 const uid = () => `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
 function dateKey(d = new Date()) {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+async function initFirebaseBridge() {
+    FB.auth = window.auth;
+    FB.db = window.db;
+
+    if (!FB.auth || !FB.db) {
+        console.warn("Firebase non disponible, mode local seulement.");
+        return false;
+    }
+
+    const { onAuthStateChanged } = await import("https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js");
+    const {
+        collection,
+        doc,
+        setDoc,
+        getDoc,
+        onSnapshot,
+        query,
+        orderBy,
+        where,
+        limit,
+        addDoc,
+        updateDoc,
+        deleteDoc,
+        serverTimestamp
+    } = await import("https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js");
+
+    FB.fs = {
+        collection,
+        doc,
+        setDoc,
+        getDoc,
+        onSnapshot,
+        query,
+        orderBy,
+        where,
+        limit,
+        addDoc,
+        updateDoc,
+        deleteDoc,
+        serverTimestamp
+    };
+
+    onAuthStateChanged(FB.auth, async (user) => {
+        FB.user = user || null;
+
+        if (user) {
+            await ensureUserProfile(user);
+            startFirestoreListeners();
+        } else {
+            stopFirestoreListeners();
+        }
+
+        renderAll();
+    });
+
+    return true;
+}
+
+function startFirestoreListeners() {
+    if (!FB.db || !FB.fs) return;
+
+    const { collection, query, orderBy, onSnapshot, limit } = FB.fs;
+
+    FB.unsubPlayers = onSnapshot(
+        query(collection(FB.db, COL.players), orderBy("level", "desc")),
+        (snap) => {
+            GameState.players = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderPlayers();
+            renderHero();
+        }
+    );
+
+    FB.unsubQuests = onSnapshot(
+        query(collection(FB.db, COL.quests), orderBy("createdAt", "asc")),
+        (snap) => {
+            GameState.quests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderQuests();
+        }
+    );
+
+    FB.unsubRaids = onSnapshot(
+        query(collection(FB.db, COL.raids), orderBy("createdAt", "desc")),
+        (snap) => {
+            GameState.raids = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderRaids();
+        }
+    );
+
+    FB.unsubLogs = onSnapshot(
+        query(collection(FB.db, COL.logs), orderBy("timestamp", "desc"), limit(100)),
+        (snap) => {
+            GameState.logs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderLogs();
+        }
+    );
+
+    FB.unsubChats = onSnapshot(
+        query(collection(FB.db, COL.chatsGlobal), orderBy("createdAt", "asc"), limit(100)),
+        (snap) => {
+            GameState.chats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderChat();
+        }
+    );
+}
+
+function stopFirestoreListeners() {
+    FB.unsubPlayers?.();
+    FB.unsubQuests?.();
+    FB.unsubRaids?.();
+    FB.unsubLogs?.();
+    FB.unsubChats?.();
+
+    FB.unsubPlayers = null;
+    FB.unsubQuests = null;
+    FB.unsubRaids = null;
+    FB.unsubLogs = null;
+    FB.unsubChats = null;
 }
 
 function getCurrentSeason() {
@@ -779,16 +920,18 @@ document.querySelectorAll('.modal').forEach(m => {
 });
 
 // Init
-window.addEventListener('DOMContentLoaded', () => {
-    loadState();
-    if (!localStorage.getItem('qd')) {
-        generateQuests();
-        localStorage.setItem('qd', dateKey());
-    } else if (localStorage.getItem('qd') !== dateKey()) {
-        generateQuests();
-        localStorage.setItem('qd', dateKey());
+window.addEventListener("DOMContentLoaded", async () => {
+    loadState(); 
+
+    await initFirebaseBridge();
+
+    if (!FB.user) {
+        if (!localStorage.getItem('qd') || localStorage.getItem('qd') !== dateKey()) {
+            generateQuests();
+            localStorage.setItem('qd', dateKey());
+        }
     }
-    saveState();
+
     renderAll();
     $('chatInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
 });
